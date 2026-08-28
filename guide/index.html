@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
+<title>Stationhead for artists and partners</title>
+<meta name="description" content="Stationhead is the home of social listening.">
+<style>
+:root{
+ --black:#282526; --white:#FCFCFC; --purple:#A663FF; --mint:#79FFD2;
+ --cobalt:#2345E5; --sky:#2DD3FF; --violet:#4B31C2; --pink:#E994DF;
+ --surface:#121212;
+ --font:"Acumin Pro","Inter","Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{background:var(--surface);color:var(--white);font-family:var(--font);
+ -webkit-font-smoothing:antialiased;line-height:1.4}
+#bar{position:fixed;top:0;left:0;right:0;z-index:50;background:rgba(18,18,18,.94);
+ backdrop-filter:blur(14px);border-bottom:1px solid rgba(252,252,252,.10)}
+#bar .row{display:flex;gap:8px;overflow-x:auto;padding:12px 14px;scrollbar-width:none}
+#bar .row::-webkit-scrollbar{display:none}
+.pill{flex:0 0 auto;background:transparent;color:var(--white);border:1px solid rgba(252,252,252,.26);
+ border-radius:999px;padding:8px 15px;font:inherit;font-size:13px;font-weight:600;
+ letter-spacing:.03em;cursor:pointer;white-space:nowrap}
+.pill.on{background:var(--purple);border-color:var(--purple);color:#140b24}
+#count{flex:0 0 auto;align-self:center;font-size:11px;letter-spacing:.03em;
+ color:rgba(252,252,252,.55);padding:0 6px;white-space:nowrap}
+#feed{height:100%;overflow-y:scroll;scroll-snap-type:y mandatory;scroll-behavior:smooth}
+.card{scroll-snap-align:start;min-height:100%;display:flex;align-items:center;
+ padding:96px 22px 56px;border-bottom:1px solid rgba(252,252,252,.07)}
+.card[hidden]{display:none}
+.inner{width:100%;max-width:560px;margin:0 auto}
+.kicker{font-size:11px;font-weight:700;letter-spacing:.03em;text-transform:uppercase;
+ color:var(--mint);margin-bottom:16px}
+h1{font-size:38px;line-height:1.08;font-weight:800;letter-spacing:-.01em;margin-bottom:16px}
+h2{font-size:29px;line-height:1.14;font-weight:800;letter-spacing:-.01em;margin-bottom:16px}
+h1 em,h2 em{font-style:normal;color:var(--purple)}
+.sub{font-size:18px;color:rgba(252,252,252,.86);margin-bottom:18px}
+.lead{font-size:16px;color:rgba(252,252,252,.80);margin-bottom:13px}
+.lead.big{font-size:19px;color:var(--white)}
+.fine{font-size:11.5px;color:rgba(252,252,252,.44);margin-top:18px;letter-spacing:.03em}
+.scrollcue{margin-top:34px;font-size:11px;letter-spacing:.03em;text-transform:uppercase;
+ color:rgba(252,252,252,.42)}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-top:6px}
+.stat{background:rgba(252,252,252,.05);border:1px solid rgba(252,252,252,.10);
+ border-radius:14px;padding:15px 14px}
+.stat b{display:block;font-size:27px;font-weight:800;letter-spacing:-.01em;color:var(--mint);
+ margin-bottom:5px}
+.stat span{display:block;font-size:12px;color:rgba(252,252,252,.66);line-height:1.32}
+.wall{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:4px}
+.tile{display:block;text-decoration:none;color:inherit;background:rgba(252,252,252,.05);
+ border:1px solid rgba(252,252,252,.10);border-radius:13px;padding:10px 8px;text-align:center}
+.tw{display:block;width:46px;height:46px;margin:0 auto 7px;border-radius:50%;overflow:hidden;
+ background:linear-gradient(140deg,var(--violet),var(--cobalt));position:relative}
+.tw img{width:100%;height:100%;object-fit:cover;display:block}
+.tw.fallback::after{content:attr(data-fb);position:absolute;inset:0;display:flex;
+ align-items:center;justify-content:center;font-size:8px;font-weight:700;letter-spacing:.03em;
+ padding:3px;text-align:center;line-height:1.1}
+.tn{display:block;font-size:11.5px;font-weight:700;letter-spacing:.03em;
+ white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ta{display:block;font-size:10px;color:rgba(252,252,252,.52);margin-top:2px;
+ white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:16px}
+.step{background:rgba(252,252,252,.05);border:1px solid rgba(252,252,252,.12);border-radius:13px;
+ padding:12px 5px;color:var(--white);font:inherit;cursor:pointer;text-align:center}
+.step.on{border-color:var(--purple);background:rgba(166,99,255,.17)}
+.step b{display:block;font-size:19px;font-weight:800;color:var(--purple);margin-bottom:3px}
+.step span{display:block;font-size:10.5px;letter-spacing:.03em;color:rgba(252,252,252,.74);line-height:1.2}
+.reveal{background:rgba(252,252,252,.05);border:1px solid rgba(252,252,252,.10);
+ border-radius:14px;padding:16px;min-height:104px}
+.reveal p{font-size:15px;color:rgba(252,252,252,.84)}
+.reveal a{display:inline-block;margin-top:10px;color:var(--mint);font-weight:700;font-size:13.5px;
+ letter-spacing:.03em}
+.steps-list{margin:0 0 4px 0;padding-left:20px}
+.steps-list li{font-size:15.5px;color:rgba(252,252,252,.80);margin-bottom:10px;padding-left:3px}
+.steps-list b{color:var(--white)}
+.ticks{list-style:none;padding:0}
+.ticks li{position:relative;padding-left:24px;font-size:15.5px;color:rgba(252,252,252,.80);
+ margin-bottom:11px}
+.ticks li::before{content:"";position:absolute;left:2px;top:8px;width:9px;height:9px;
+ border-radius:50%;background:var(--mint)}
+.ticks b{color:var(--white)}
+blockquote{background:rgba(252,252,252,.05);border-left:3px solid var(--purple);
+ border-radius:0 13px 13px 0;padding:15px 16px;margin:2px 0 4px}
+blockquote p{font-size:16px;color:var(--white);margin-bottom:6px}
+blockquote p:last-child{margin-bottom:0;color:var(--mint);font-weight:700}
+.need{margin-top:16px;font-size:14px;color:rgba(252,252,252,.74);background:rgba(252,252,252,.05);
+ border:1px solid rgba(252,252,252,.10);border-radius:13px;padding:14px}
+.need b{color:var(--white)}
+.future{font-size:34px;font-weight:800;letter-spacing:-.01em;margin:16px 0 34px}
+.future em{font-style:normal;color:var(--mint)}
+.lockup{display:flex;flex-direction:column;gap:7px}
+.wordmark{font-size:21px;font-weight:800;letter-spacing:.03em;display:inline-flex;align-items:center}
+.wordmark .dot{display:inline-block;width:13px;height:13px;border-radius:50%;
+ background:var(--purple);margin:0 1px}
+.tagline{font-size:12px;letter-spacing:.03em;color:rgba(252,252,252,.58)}
+
+/* ---- affordances: show what is tappable and where it goes ---- */
+.tile{position:relative;padding-top:14px}
+.tile::after{content:"↗";position:absolute;top:7px;right:9px;font-size:12px;
+ font-weight:700;line-height:1;color:var(--mint);opacity:.75}
+.tile:hover::after,.tile:focus::after{opacity:1}
+.reveal a::after{content:" →";font-weight:800}
+.step{position:relative;padding-bottom:17px}
+.step::after{content:"⌄";position:absolute;left:0;right:0;bottom:2px;font-size:13px;
+ line-height:1;color:rgba(252,252,252,.34)}
+.step.on::after{color:var(--purple)}
+.need b::after,.stat b::after{content:""}
+#bar{position:fixed}
+#bar .row{position:relative;padding-right:30px}
+#bar::after{content:"›";position:absolute;top:0;right:0;height:100%;width:30px;
+ display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:700;
+ color:rgba(252,252,252,.50);pointer-events:none;
+ background:linear-gradient(to right,rgba(18,18,18,0),rgba(18,18,18,.96) 42%)}
+.scrollcue{display:flex;align-items:center;gap:8px}
+.scrollcue::after{content:"⌄";font-size:19px;line-height:.6;color:var(--mint);
+ animation:nudge 1.7s ease-in-out infinite}
+.next{margin-top:30px;height:16px;text-align:center;color:rgba(252,252,252,.30)}
+.next::after{content:"⌄";font-size:19px;line-height:.6;animation:nudge 2.4s ease-in-out infinite}
+@keyframes nudge{0%,100%{transform:translateY(0)}50%{transform:translateY(4px)}}
+@media(prefers-reduced-motion:reduce){
+ .scrollcue::after,.next::after{animation:none}
+}
+@media(min-width:720px){
+ h1{font-size:52px} h2{font-size:38px}
+ .wall{grid-template-columns:repeat(4,1fr)}
+}
+@media print{
+ @page{margin:14mm}
+ body{background:#fff;color:#282526}
+ #bar{display:none}
+ #feed{height:auto;overflow:visible;scroll-snap-type:none}
+ .card{min-height:0;page-break-inside:avoid;break-inside:avoid;padding:0 0 20mm;
+  border-bottom:1px solid #ddd;display:block}
+ .card[hidden]{display:block}
+ .kicker{color:#4B31C2}
+ h1 em,h2 em{color:#4B31C2}
+ .sub,.lead,.steps-list li,.ticks li,.reveal p{color:#3a3739}
+ .fine,.ta,.tagline{color:#6b6769}
+ .stat,.tile,.reveal,.need,blockquote,.step{background:#f5f4f5;border-color:#ddd}
+ .stat b{color:#4B31C2}
+ .reveal p[hidden]{display:block!important}
+ .reveal a{color:#2345E5}
+ .future em{color:#4B31C2}
+ .scrollcue,.next,#bar::after{display:none}
+ .tile::after{color:#4B31C2}
+ .step::after{color:#4B31C2}
+ .reveal a::after{content:" →"}
+}
+
+.shots{display:flex;gap:11px;overflow-x:auto;scroll-snap-type:x mandatory;
+ padding:2px 0 8px;margin:0 -2px;scrollbar-width:none}
+.shots::-webkit-scrollbar{display:none}
+.shot{flex:0 0 auto;width:172px;scroll-snap-align:start;margin:0;
+ background:rgba(252,252,252,.05);border:1px solid rgba(252,252,252,.12);
+ border-radius:15px;padding:8px;text-align:center}
+.shot img{width:100%;display:block;border-radius:9px;background:#000}
+.shot figcaption{font-size:10.5px;line-height:1.3;letter-spacing:.03em;
+ color:rgba(252,252,252,.62);margin-top:8px;padding:0 2px}
+.shots + .fine{margin-top:6px}
+.hint{margin-top:12px;font-size:11px;letter-spacing:.03em;color:rgba(252,252,252,.42)}
+.hint::after{content:" \203A";font-weight:700;color:var(--mint)}
+.needlist{list-style:none;padding:0;margin:6px 0 12px}
+.needlist li{position:relative;padding-left:16px;margin-bottom:6px;font-size:14px}
+.needlist li::before{content:"";position:absolute;left:2px;top:7px;width:5px;height:5px;
+ border-radius:50%;background:var(--mint)}
+@media(min-width:720px){.shot{width:200px}}
+@media print{
+ .shots{overflow:visible;flex-wrap:wrap;page-break-inside:avoid}
+ .shot{background:#f5f4f5;border-color:#ddd;width:150px}
+ .shot figcaption{color:#3a3739}
+ .hint{display:none}
+}
+.docname{flex:0 0 auto;font-size:12px;font-weight:700;letter-spacing:.03em;color:rgba(252,252,252,.80);padding:8px 4px;white-space:nowrap}
+</style>
+</head>
+<body>
+<div id="bar"><div class="row"><button class="pill on" data-filter="all">Everything</button><button class="pill" data-filter="pop">Pop</button><button class="pill" data-filter="hiphop">Hip-Hop / R&amp;B</button><button class="pill" data-filter="country">Country</button><button class="pill" data-filter="rock">Rock / Alt</button><button class="pill" data-filter="latin">Latin</button><button class="pill" data-filter="kpop">K-pop / J-pop</button><button class="pill" data-filter="catalog">Catalog</button><span id="count"></span></div></div>
+<main id="feed">
+<section class="card" id="hero" data-tags="core">
+<div class="inner">
+<p class="kicker">Stationhead</p>
+<h1>Stationhead is the home of <em>social listening</em>.</h1>
+<p class="sub">Artists and fans in the same room, playing the same song, at the same time.</p>
+<p class="lead">Millions of fans listen together here every day. When an artist walks in, the room is already full.</p>
+<p class="scrollcue">Keep scrolling</p>
+<div class="next" aria-hidden="true"></div></div>
+</section>
+<section class="card" id="platform" data-tags="global">
+<div class="inner">
+<p class="kicker">The platform</p>
+<h2>The rooms are already running.</h2>
+<div class="stats">
+  <div class="stat"><b>Billions</b><span>of streams played together</span></div>
+  <div class="stat"><b>Millions</b><span>of fans streaming inside channels, worldwide</span></div>
+  <div class="stat"><b>150+</b><span>countries represented</span></div>
+  <div class="stat"><b>650+</b><span>live artist channels</span></div>
+</div>
+<p class="fine">Streaming together here since September 2022.</p>
+<div class="next" aria-hidden="true"></div></div>
+</section>
+<section class="card" id="oneroom" data-tags="global">
+<div class="inner">
+<p class="kicker">Scale</p>
+<h2>One channel has passed <em>a billion</em> streams.</h2>
+<p class="lead">Not the platform. One artist community, one room, streaming together, past one billion plays and still going. Several more rooms have passed half a billion each.</p>
+<div class="next" aria-hidden="true"></div></div>
+</section>
+<section class="card" id="thefan" data-tags="global">
+<div class="inner">
+<p class="kicker">Commitment</p>
+<h2>One fan has shown up on <em>more than 1,000 separate days</em>.</h2>
+<p class="lead">That is more than three years of turning up to stream with other people. This is the behaviour an artist is walking into. It does not need to be created. It needs to be joined.</p>
+<p class="fine">Days streamed by a single account.</p>
+<div class="next" aria-hidden="true"></div></div>
+</section>
+<section class="card" id="members" data-tags="global">
+<div class="inner">
+<p class="kicker">The audience</p>
+<h2>Millions of people have joined an artist channel.</h2>
+<p class="lead">The largest single channel has millions of members on its own. These are not followers. They are people who opted into a room and come back to it.</p>
+<div class="next" aria-hidden="true"></div></div>
+</section>
+<section class="card" id="wall" data-tags="global">
+<div class="inner">
+<p class="kicker">Who is here</p>
+<h2>A few of the rooms.</h2>
+<div class="wall"><a class="tile" href="https://app.stationhead.com/c/army" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/66b77091-237b-41f4-b8eb-ea10d5c28652.png" alt="BTS ARMY" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;BTS ARMY&quot;)"></span><span class="tn">BTS ARMY</span><span class="ta">BTS</span></a><a class="tile" href="https://app.stationhead.com/c/stays" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/84684458-9ed0-422f-9981-0c625972282e.png" alt="STAYS" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;STAYS&quot;)"></span><span class="tn">STAYS</span><span class="ta">Stray Kids</span></a><a class="tile" href="https://app.stationhead.com/c/barbz" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/59438936-3ab1-4aef-929c-6f555e3143ff.png" alt="BARBZ" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;BARBZ&quot;)"></span><span class="tn">BARBZ</span><span class="ta">Nicki Minaj</span></a><a class="tile" href="https://app.stationhead.com/c/swifties" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/824913d0-943c-4b34-84b4-51c3eda52702.png" alt="Swifties" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;Swifties&quot;)"></span><span class="tn">Swifties</span><span class="ta">Taylor Swift</span></a><a class="tile" href="https://app.stationhead.com/c/blinks" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/541a07cd-d48c-463a-924f-7902a92ad264.png" alt="BLINKS" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;BLINKS&quot;)"></span><span class="tn">BLINKS</span><span class="ta">Blackpink</span></a><a class="tile" href="https://app.stationhead.com/c/ilys" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/43f3e6fc-72ef-454a-b2ac-b2891c2973a7.png" alt="iLYs" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;iLYs&quot;)"></span><span class="tn">iLYs</span><span class="ta">Number_i</span></a><a class="tile" href="https://app.stationhead.com/c/kggang" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/f6a24497-8dd3-47cb-9ef8-19c42295c388.png" alt="KG Gang" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;KG Gang&quot;)"></span><span class="tn">KG Gang</span><span class="ta">KAROL G</span></a><a class="tile" href="https://app.stationhead.com/c/clubwallen" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/d3ce5e56-e662-4fbf-bcb1-88bbf31388ee.png" alt="Club Wallen" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;Club Wallen&quot;)"></span><span class="tn">Club Wallen</span><span class="ta">Morgan Wallen</span></a><a class="tile" href="https://app.stationhead.com/c/thecongregation" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/095e8d55-d5aa-4f16-998c-bfe9a1f30998.png" alt="The Congregation" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;The Congregation&quot;)"></span><span class="tn">The Congregation</span><span class="ta">GHOST</span></a><a class="tile" href="https://app.stationhead.com/c/carat" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/5192bd47-d22b-424c-9bbc-82f10f784513.png" alt="CARAT" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;CARAT&quot;)"></span><span class="tn">CARAT</span><span class="ta">SEVENTEEN</span></a><a class="tile" href="https://app.stationhead.com/c/beyhive" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/ff31d552-2019-471a-9544-d9314bd9255d.png" alt="Beyhive" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;Beyhive&quot;)"></span><span class="tn">Beyhive</span><span class="ta">Beyonce</span></a><a class="tile" href="https://app.stationhead.com/c/moa" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/c421f1cc-d56e-4fe1-b435-0bd50f60b75f.png" alt="MOA" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;MOA&quot;)"></span><span class="tn">MOA</span><span class="ta">TOMORROW x TOGETHER</span></a><a class="tile" href="https://app.stationhead.com/c/billiestans" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/dfd1c232-01f9-492c-875a-97cf146b8119.png" alt="Billie Stans" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;Billie Stans&quot;)"></span><span class="tn">Billie Stans</span><span class="ta">Billie Eilish</span></a><a class="tile" href="https://app.stationhead.com/c/engene" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/22e95e6d-fcbe-4dd3-a266-f226de10082d.png" alt="ENGENE" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;ENGENE&quot;)"></span><span class="tn">ENGENE</span><span class="ta">ENHYPEN</span></a><a class="tile" href="https://app.stationhead.com/c/bardigang" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/e4ed1c6c-e668-498e-ba9c-7bb1bbfef774.png" alt="BARDIGANG" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;BARDIGANG&quot;)"></span><span class="tn">BARDIGANG</span><span class="ta">Cardi B</span></a><a class="tile" href="https://app.stationhead.com/c/once" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/e852f626-ac59-4e99-80a9-a8b953494f98.png" alt="ONCE" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;ONCE&quot;)"></span><span class="tn">ONCE</span><span class="ta">TWICE</span></a><a class="tile" href="https://app.stationhead.com/c/atin" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/197d5260-d26c-4175-936d-588d85369fe7.png" alt="ATIN" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;ATIN&quot;)"></span><span class="tn">ATIN</span><span class="ta">SB19</span></a><a class="tile" href="https://app.stationhead.com/c/lambs" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/f6ed0974-7ed7-46c1-8102-845d8d9eb5de.png" alt="Lambs" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;Lambs&quot;)"></span><span class="tn">Lambs</span><span class="ta">Mariah Carey</span></a><a class="tile" href="https://app.stationhead.com/c/teamariana" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/c02ce16d-d21f-4bd8-93a8-999b4fe037ed.png" alt="Team Ariana" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;Team Ariana&quot;)"></span><span class="tn">Team Ariana</span><span class="ta">Ariana Grande</span></a><a class="tile" href="https://app.stationhead.com/c/anitters" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/5cbd6ad3-5b99-4797-b5a5-7ef3ae1546eb.png" alt="Anitters" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;Anitters&quot;)"></span><span class="tn">Anitters</span><span class="ta">Anitta</span></a><a class="tile" href="https://app.stationhead.com/c/thegroupchat" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/899b1156-c65c-4983-aadb-29a79ba7774c.png" alt="THE GROUP CHAT" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;THE GROUP CHAT&quot;)"></span><span class="tn">THE GROUP CHAT</span><span class="ta">Waterparks</span></a><a class="tile" href="https://app.stationhead.com/c/atiny" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/fe17aed1-48d9-4f6b-814c-853d86e14fc9.png" alt="ATINY" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;ATINY&quot;)"></span><span class="tn">ATINY</span><span class="ta">ATEEZ</span></a><a class="tile" href="https://app.stationhead.com/c/jam" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/be0ad1db-2c79-4fc7-a67f-c0af20ad0a0a.png" alt="JAM" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;JAM&quot;)"></span><span class="tn">JAM</span><span class="ta">JO1</span></a><a class="tile" href="https://app.stationhead.com/c/hotties" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/25569f2e-d150-4b73-9e7f-a5d5ba4335f6.png" alt="HOTTIES" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;HOTTIES&quot;)"></span><span class="tn">HOTTIES</span><span class="ta">Megan Thee Stallion</span></a><a class="tile" href="https://app.stationhead.com/c/moroneyhq" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/229ae96d-8595-41ce-b0bd-1ac993760de1.png" alt="MoroneyHQ" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;MoroneyHQ&quot;)"></span><span class="tn">MoroneyHQ</span><span class="ta">Megan Moroney</span></a><a class="tile" href="https://app.stationhead.com/c/streetsoldiers" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/650ddca6-d918-41dc-b96c-a1b0e0698657.png" alt="Street Soldiers" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;Street Soldiers&quot;)"></span><span class="tn">Street Soldiers</span><span class="ta">LINKIN PARK</span></a><a class="tile" href="https://app.stationhead.com/c/vips" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/bae0e021-c98e-46d8-92ea-41a15f9a5e9f.png" alt="VIPs" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;VIPs&quot;)"></span><span class="tn">VIPs</span><span class="ta">BIGBANG</span></a></div>
+<p class="fine">Every link verified live against the channel database on 25 August 2026.</p>
+<div class="next" aria-hidden="true"></div></div>
+</section>
+<section class="card" id="whatitis" data-tags="core">
+<div class="inner">
+<p class="kicker">What it is</p>
+<h2>Four things happen in one room.</h2>
+<div class="steps">
+  <button class="step" data-step="1"><b>1</b><span>A channel</span></button>
+  <button class="step" data-step="2"><b>2</b><span>A fan host</span></button>
+  <button class="step" data-step="3"><b>3</b><span>An artist on mic</span></button>
+  <button class="step" data-step="4"><b>4</b><span>A live shop</span></button>
+</div>
+<div class="reveal" id="reveal">
+  <p data-for="1">A channel is the artist's permanent home. Fans join it once and stay. It holds every show, every host and every drop in one place. <a href="https://app.stationhead.com/c/army" target="_blank" rel="noopener">Open a live channel</a></p>
+  <p data-for="2" hidden>Fans host the shows. They play the music, they run the chat, they keep the room warm between releases. The artist does not have to be there for the room to be full. <a href="https://app.stationhead.com/c/stays" target="_blank" rel="noopener">See a fan-hosted room</a></p>
+  <p data-for="3" hidden>When the artist picks up the mic, they talk over the music to the people already in the room. No production, no set build. A phone is enough. <a href="https://app.stationhead.com/c/barbz" target="_blank" rel="noopener">See a channel that has had the artist on mic</a></p>
+  <p data-for="4" hidden>A shop sits inside the room while the music plays. Fans buy without leaving the conversation. <a href="https://app.stationhead.com/c/thegroupchat" target="_blank" rel="noopener">See a channel with a shop</a></p>
+</div>
+<div class="next" aria-hidden="true"></div></div>
+</section>
+<section class="card" id="whyitworks" data-tags="core">
+<div class="inner">
+<p class="kicker">Why it works</p>
+<h2>Every play is a real stream.</h2>
+<p class="lead">Fans connect their own paid streaming account. When the room plays a song, it plays on each person's own account. One room, thousands of individual streams, all of them counted where they matter.</p>
+<p class="lead">That is why a listening party here moves numbers instead of just moving attention.</p>
+<div class="next" aria-hidden="true"></div></div>
+</section>
+<section class="card" id="pop-1" data-tags="pop">
+<div class="inner">
+<p class="kicker">Pop</p>
+<h2>12 live rooms in Pop.</h2>
+<div class="stats">
+  <div class="stat"><b>1,859,798</b><span>community members across these rooms</span></div>
+  <div class="stat"><b>2,670</b><span>fan hosts affiliated to them</span></div>
+  <div class="stat"><b>29,140,861</b><span>streams played in these rooms to date</span></div>
+</div>
+<p class="fine">Aggregate across the 12 channels on the next card. Pulled 25 August 2026.</p>
+<div class="next" aria-hidden="true"></div></div>
+</section>
+<section class="card" id="pop-2" data-tags="pop">
+<div class="inner"><p class="kicker">Pop</p>
+<h2>The rooms.</h2>
+<div class="wall"><a class="tile" href="https://app.stationhead.com/c/swifties" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/824913d0-943c-4b34-84b4-51c3eda52702.png" alt="Swifties" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;Swifties&quot;)"></span><span class="tn">Swifties</span><span class="ta">Taylor Swift</span></a><a class="tile" href="https://app.stationhead.com/c/billiestans" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/dfd1c232-01f9-492c-875a-97cf146b8119.png" alt="Billie Stans" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;Billie Stans&quot;)"></span><span class="tn">Billie Stans</span><span class="ta">Billie Eilish</span></a><a class="tile" href="https://app.stationhead.com/c/teamariana" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/c02ce16d-d21f-4bd8-93a8-999b4fe037ed.png" alt="Team Ariana" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;Team Ariana&quot;)"></span><span class="tn">Team Ariana</span><span class="ta">Ariana Grande</span></a><a class="tile" href="https://app.stationhead.com/c/carpenters" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/b62fb007-1feb-48c1-a701-a7d7d06f7152.png" alt="Carpenters" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;Carpenters&quot;)"></span><span class="tn">Carpenters</span><span class="ta">Sabrina Carpenter</span></a><a class="tile" href="https://app.stationhead.com/c/livies" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/9b8ee031-c366-48a5-9f20-a0595ca53461.png" alt="Livies" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;Livies&quot;)"></span><span class="tn">Livies</span><span class="ta">Olivia Rodrigo</span></a><a class="tile" href="https://app.stationhead.com/c/loves" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/ac24a41b-606e-46b0-947d-2c5088413c6f.png" alt="Loves" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;Loves&quot;)"></span><span class="tn">Loves</span><span class="ta">Dua Lipa</span></a><a class="tile" href="https://app.stationhead.com/c/sheerios" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/fd339826-038b-48c8-b8c5-34a907a59067.png" alt="Sheerios" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;Sheerios&quot;)"></span><span class="tn">Sheerios</span><span class="ta">Ed Sheeran</span></a><a class="tile" href="https://app.stationhead.com/c/katycats" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/2f8699e0-519c-41cb-8810-8a192f39f8ac.png" alt="KatyCats" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;KatyCats&quot;)"></span><span class="tn">KatyCats</span><span class="ta">Katy Perry</span></a><a class="tile" href="https://app.stationhead.com/c/monsters" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/fc73303b-e072-4ef2-aea5-7d8e3f8d6422.png" alt="Monsters" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;Monsters&quot;)"></span><span class="tn">Monsters</span><span class="ta">Lady Gaga</span></a><a class="tile" href="https://app.stationhead.com/c/gahq" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/f4eb48ea-f4f2-496d-956b-1ce9e2ee812a.png" alt="GAHQ" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;GAHQ&quot;)"></span><span class="tn">GAHQ</span><span class="ta">Gracie Abrams</span></a><a class="tile" href="https://app.stationhead.com/c/puthinators" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/e870d10d-f0a6-404a-b34e-a4ea07a83829.png" alt="Puthinators" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;Puthinators&quot;)"></span><span class="tn">Puthinators</span><span class="ta">Charlie Puth</span></a><a class="tile" href="https://app.stationhead.com/c/harries" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/7446e74c-60c5-4cd8-801c-6857ffc93c3f.png" alt="Harries" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;Harries&quot;)"></span><span class="tn">Harries</span><span class="ta">Harry Styles</span></a></div>
+<p class="fine">Every link verified live on 25 August 2026. Tap any tile to open the channel.</p><div class="next" aria-hidden="true"></div></div>
+</section>
+<section class="card" id="pop-3" data-tags="pop">
+<div class="inner"><p class="kicker">Pop</p>
+<h2>How it behaves.</h2>
+<p class="lead">The pop rooms run on repeat listening. A pop release party is the clearest version of what this platform does: one drop, one room, thousands of accounts playing it at once.</p>
+<p class="lead">Pop fandoms organise fast and they organise publicly. Give them a time and a link and they will fill the hour without any further push.</p><div class="next" aria-hidden="true"></div></div>
+</section>
+<section class="card" id="pop-4" data-tags="pop">
+<div class="inner"><p class="kicker">Pop</p>
+<h2>The play.</h2>
+<p class="lead big">Best play: midnight release party, artist on for the first three tracks, fans host the rest of the night.</p>
+<p class="fine">Bring us the date and we will build the room around it.</p><div class="next" aria-hidden="true"></div></div>
+</section>
+<section class="card" id="hiphop-1" data-tags="hiphop">
+<div class="inner">
+<p class="kicker">Hip-Hop / R&amp;B</p>
+<h2>12 live rooms in Hip-Hop / R&amp;B.</h2>
+<div class="stats">
+  <div class="stat"><b>2,746,980</b><span>community members across these rooms</span></div>
+  <div class="stat"><b>2,015</b><span>fan hosts affiliated to them</span></div>
+  <div class="stat"><b>139,394,176</b><span>streams played in these rooms to date</span></div>
+</div>
+<p class="fine">Aggregate across the 12 channels on the next card. Pulled 25 August 2026.</p>
+<div class="next" aria-hidden="true"></div></div>
+</section>
+<section class="card" id="hiphop-2" data-tags="hiphop">
+<div class="inner"><p class="kicker">Hip-Hop / R&amp;B</p>
+<h2>The rooms.</h2>
+<div class="wall"><a class="tile" href="https://app.stationhead.com/c/barbz" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/59438936-3ab1-4aef-929c-6f555e3143ff.png" alt="BARBZ" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;BARBZ&quot;)"></span><span class="tn">BARBZ</span><span class="ta">Nicki Minaj</span></a><a class="tile" href="https://app.stationhead.com/c/bardigang" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/e4ed1c6c-e668-498e-ba9c-7bb1bbfef774.png" alt="BARDIGANG" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;BARDIGANG&quot;)"></span><span class="tn">BARDIGANG</span><span class="ta">Cardi B</span></a><a class="tile" href="https://app.stationhead.com/c/hotties" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/25569f2e-d150-4b73-9e7f-a5d5ba4335f6.png" alt="HOTTIES" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;HOTTIES&quot;)"></span><span class="tn">HOTTIES</span><span class="ta">Megan Thee Stallion</span></a><a class="tile" href="https://app.stationhead.com/c/campsza" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/b275edbe-eadf-437b-b2f4-1ce58ff157d8.png" alt="CampSZA" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;CampSZA&quot;)"></span><span class="tn">CampSZA</span><span class="ta">SZA</span></a><a class="tile" href="https://app.stationhead.com/c/beyhive" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/ff31d552-2019-471a-9544-d9314bd9255d.png" alt="Beyhive" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;Beyhive&quot;)"></span><span class="tn">Beyhive</span><span class="ta">Beyonce</span></a><a class="tile" href="https://app.stationhead.com/c/partyomo" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/3e99358c-e28b-4f4b-b36b-c72343d2a563.png" alt="PARTYOMO" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;PARTYOMO&quot;)"></span><span class="tn">PARTYOMO</span><span class="ta">PARTYNEXTDOOR</span></a><a class="tile" href="https://app.stationhead.com/c/teambreezy" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/a1bbf0a2-1c42-4e65-966d-673c7a33e24d.png" alt="Team Breezy" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;Team Breezy&quot;)"></span><span class="tn">Team Breezy</span><span class="ta">Chris Brown</span></a><a class="tile" href="https://app.stationhead.com/c/setgang" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/1d4f48cb-aa88-45e1-b323-82462cb74547.png" alt="Setgang" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;Setgang&quot;)"></span><span class="tn">Setgang</span><span class="ta">Offset</span></a><a class="tile" href="https://app.stationhead.com/c/ddgsquad" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/97016f9a-0ce5-49c1-8be5-3493adc101e1.png" alt="DDG Squad" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;DDG Squad&quot;)"></span><span class="tn">DDG Squad</span><span class="ta">DDG</span></a><a class="tile" href="https://app.stationhead.com/c/juvies" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/ab336b85-9027-44ed-a8ff-4caa71cb3c8d.png" alt="Juvies" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;Juvies&quot;)"></span><span class="tn">Juvies</span><span class="ta">JT</span></a><a class="tile" href="https://app.stationhead.com/c/neverbrokeagain" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/ec080aca-0b2b-49bf-b178-36ec481723f7.png" alt="NEVER BROKE AGAIN" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;NEVER BROKE AGAIN&quot;)"></span><span class="tn">NEVER BROKE AGAIN</span><span class="ta">NEVER BROKE AGAIN</span></a><a class="tile" href="https://app.stationhead.com/c/tygers" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/a8a625b0-1fad-4db4-b1b9-0f02103fe007.png" alt="Tygers" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;Tygers&quot;)"></span><span class="tn">Tygers</span><span class="ta">Tyla</span></a></div>
+<p class="fine">Every link verified live on 25 August 2026. Tap any tile to open the channel.</p><div class="next" aria-hidden="true"></div></div>
+</section>
+<section class="card" id="hiphop-3" data-tags="hiphop">
+<div class="inner"><p class="kicker">Hip-Hop / R&amp;B</p>
+<h2>How it behaves.</h2>
+<p class="lead">Hip-Hop and R&B rooms are conversational. The chat moves faster than the music and the artist voice carries further because of it.</p>
+<p class="lead">These communities respond to presence over polish. Ten unannounced minutes on someone else's show does more than a produced event.</p><div class="next" aria-hidden="true"></div></div>
+</section>
+<section class="card" id="hiphop-4" data-tags="hiphop">
+<div class="inner"><p class="kicker">Hip-Hop / R&amp;B</p>
+<h2>The play.</h2>
+<p class="lead big">Best play: a drop in on a fan-hosted show, plus an exclusive merch window inside the room.</p>
+<p class="fine">Bring us the date and we will build the room around it.</p><div class="next" aria-hidden="true"></div></div>
+</section>
+<section class="card" id="country-1" data-tags="country">
+<div class="inner">
+<p class="kicker">Country</p>
+<h2>12 live rooms in Country.</h2>
+<div class="stats">
+  <div class="stat"><b>34,499</b><span>community members across these rooms</span></div>
+  <div class="stat"><b>62</b><span>fan hosts affiliated to them</span></div>
+  <div class="stat"><b>1,386,871</b><span>streams played in these rooms to date</span></div>
+</div>
+<p class="fine">Aggregate across the 12 channels on the next card. Pulled 25 August 2026.</p>
+<div class="next" aria-hidden="true"></div></div>
+</section>
+<section class="card" id="country-2" data-tags="country">
+<div class="inner"><p class="kicker">Country</p>
+<h2>The rooms.</h2>
+<div class="wall"><a class="tile" href="https://app.stationhead.com/c/moroneyhq" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/229ae96d-8595-41ce-b0bd-1ac993760de1.png" alt="MoroneyHQ" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;MoroneyHQ&quot;)"></span><span class="tn">MoroneyHQ</span><span class="ta">Megan Moroney</span></a><a class="tile" href="https://app.stationhead.com/c/clubwallen" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/d3ce5e56-e662-4fbf-bcb1-88bbf31388ee.png" alt="Club Wallen" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;Club Wallen&quot;)"></span><span class="tn">Club Wallen</span><span class="ta">Morgan Wallen</span></a><a class="tile" href="https://app.stationhead.com/c/postmates" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/06cb8700-92bf-4b0c-8f72-aed8ab356a4b.png" alt="Postmates" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;Postmates&quot;)"></span><span class="tn">Postmates</span><span class="ta">Post Malone</span></a><a class="tile" href="https://app.stationhead.com/c/bznation" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/3bd2eca1-8355-4883-9762-8cf498ca1fd7.png" alt="BZ Nation" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;BZ Nation&quot;)"></span><span class="tn">BZ Nation</span><span class="ta">Bailey Zimmerman</span></a><a class="tile" href="https://app.stationhead.com/c/deeperwell" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/f9ccdd78-9f6a-4371-af53-a3a6e22d2f7c.png" alt="Deeper Well" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;Deeper Well&quot;)"></span><span class="tn">Deeper Well</span><span class="ta">Kacey Musgraves</span></a><a class="tile" href="https://app.stationhead.com/c/laineyswildhorses" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/4861a85d-db53-4e51-ae02-8d1eeda9e8e0.png" alt="Wild Horses" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;Wild Horses&quot;)"></span><span class="tn">Wild Horses</span><span class="ta">Lainey Wilson</span></a><a class="tile" href="https://app.stationhead.com/c/legends" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/42feff5f-2452-4535-8278-b2c54590d6b6.png" alt="Legends" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;Legends&quot;)"></span><span class="tn">Legends</span><span class="ta">Kelsea Ballerini</span></a><a class="tile" href="https://app.stationhead.com/c/koeskonvicts" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/97d1827a-6cbf-4015-9983-f7387e2b104d.png" alt="Koe's Konvicts" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;Koe's Konvicts&quot;)"></span><span class="tn">Koe's Konvicts</span><span class="ta">Koe Wetzel</span></a><a class="tile" href="https://app.stationhead.com/c/ashleymcbrydetrybe" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/3fb8bd75-9ce1-4a91-a359-da0d901d88eb.png" alt="The Trybe" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;The Trybe&quot;)"></span><span class="tn">The Trybe</span><span class="ta">Ashley McBryde</span></a><a class="tile" href="https://app.stationhead.com/c/lbnuthouse" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/c8696f72-ba24-4fc4-b349-bf1b1ad39165.png" alt="LB Nut House" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;LB Nut House&quot;)"></span><span class="tn">LB Nut House</span><span class="ta">Luke Bryan</span></a><a class="tile" href="https://app.stationhead.com/c/kanebrownfamily" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/9931fd3c-3342-43a9-a91f-0a829bf9eb13.png" alt="Kane Brown Family" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;Kane Brown Family&quot;)"></span><span class="tn">Kane Brown Family</span><span class="ta">Kane Brown</span></a><a class="tile" href="https://app.stationhead.com/c/duckmanfans" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/f797dabc-3b10-46d2-a3a2-152c679efb2d.png" alt="Duckman Fans" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;Duckman Fans&quot;)"></span><span class="tn">Duckman Fans</span><span class="ta">Riley Green</span></a></div>
+<p class="fine">Every link verified live on 25 August 2026. Tap any tile to open the channel.</p><div class="next" aria-hidden="true"></div></div>
+</section>
+<section class="card" id="country-3" data-tags="country">
+<div class="inner"><p class="kicker">Country</p>
+<h2>How it behaves.</h2>
+<p class="lead">Country communities are small, loyal and highly organised. They turn up for the artist rather than the format, which makes a plain listening party work well.</p>
+<p class="lead">The rooms here reward storytelling. Say what the song is about before you play it and the chat will run with it for the rest of the night.</p><div class="next" aria-hidden="true"></div></div>
+</section>
+<section class="card" id="country-4" data-tags="country">
+<div class="inner"><p class="kicker">Country</p>
+<h2>The play.</h2>
+<p class="lead big">Best play: album played in track order with the artist talking between songs, and a signed item in the shop.</p>
+<p class="fine">Bring us the date and we will build the room around it.</p><div class="next" aria-hidden="true"></div></div>
+</section>
+<section class="card" id="rock-1" data-tags="rock">
+<div class="inner">
+<p class="kicker">Rock / Alt</p>
+<h2>15 live rooms in Rock / Alt.</h2>
+<div class="stats">
+  <div class="stat"><b>161,519</b><span>community members across these rooms</span></div>
+  <div class="stat"><b>219</b><span>fan hosts affiliated to them</span></div>
+  <div class="stat"><b>14,586,729</b><span>streams played in these rooms to date</span></div>
+</div>
+<p class="fine">Aggregate across the 15 channels on the next card. Pulled 25 August 2026.</p>
+<div class="next" aria-hidden="true"></div></div>
+</section>
+<section class="card" id="rock-2" data-tags="rock">
+<div class="inner"><p class="kicker">Rock / Alt</p>
+<h2>The rooms.</h2>
+<div class="wall"><a class="tile" href="https://app.stationhead.com/c/thecongregation" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/095e8d55-d5aa-4f16-998c-bfe9a1f30998.png" alt="The Congregation" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;The Congregation&quot;)"></span><span class="tn">The Congregation</span><span class="ta">GHOST</span></a><a class="tile" href="https://app.stationhead.com/c/caangels" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/4e374b66-dfdd-4bf4-87d6-05875098588b.png" alt="Angels" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;Angels&quot;)"></span><span class="tn">Angels</span><span class="ta">Chase Atlantic</span></a><a class="tile" href="https://app.stationhead.com/c/streetsoldiers" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/650ddca6-d918-41dc-b96c-a1b0e0698657.png" alt="Street Soldiers" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;Street Soldiers&quot;)"></span><span class="tn">Street Soldiers</span><span class="ta">LINKIN PARK</span></a><a class="tile" href="https://app.stationhead.com/c/wallers" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/7daf0b2e-6c19-46ec-bb7d-2be83aed3236.png" alt="Wallers" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;Wallers&quot;)"></span><span class="tn">Wallers</span><span class="ta">Wallows</span></a><a class="tile" href="https://app.stationhead.com/c/clikkies" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/7f8b82d6-16e5-412b-83d9-b8330fcbeebb.png" alt="Clikkies" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;Clikkies&quot;)"></span><span class="tn">Clikkies</span><span class="ta">Twenty One Pilots</span></a><a class="tile" href="https://app.stationhead.com/c/coldplayers" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/006101b3-1102-4deb-b91c-64b91396d300.png" alt="Coldplayers" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;Coldplayers&quot;)"></span><span class="tn">Coldplayers</span><span class="ta">Coldplay</span></a><a class="tile" href="https://app.stationhead.com/c/thegroupchat" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/899b1156-c65c-4983-aadb-29a79ba7774c.png" alt="THE GROUP CHAT" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;THE GROUP CHAT&quot;)"></span><span class="tn">THE GROUP CHAT</span><span class="ta">Waterparks</span></a><a class="tile" href="https://app.stationhead.com/c/firebreathers" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/0df8b434-1c41-4590-9641-ffa34122aed9.png" alt="Fire Breathers" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;Fire Breathers&quot;)"></span><span class="tn">Fire Breathers</span><span class="ta">Imagine Dragons</span></a><a class="tile" href="https://app.stationhead.com/c/queenies" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/57b166f8-3ad0-4c3c-a595-43949cd9938e.png" alt="Queenies" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;Queenies&quot;)"></span><span class="tn">Queenies</span><span class="ta">Queen</span></a><a class="tile" href="https://app.stationhead.com/c/hozierhive" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/511b8269-4016-41ab-8c1c-26694075f0fe.png" alt="Hozier Hive" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;Hozier Hive&quot;)"></span><span class="tn">Hozier Hive</span><span class="ta">Hozier</span></a><a class="tile" href="https://app.stationhead.com/c/tenclub" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/9a93e079-5faa-4414-ab55-a9b2ef430dac.png" alt="Ten Club" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;Ten Club&quot;)"></span><span class="tn">Ten Club</span><span class="ta">Pearl Jam</span></a><a class="tile" href="https://app.stationhead.com/c/mcrmy" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/0a0e8e07-51be-4123-8e2d-b623ca0e020e.png" alt="MCRMy" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;MCRMy&quot;)"></span><span class="tn">MCRMy</span><span class="ta">My Chemical Romance</span></a><a class="tile" href="https://app.stationhead.com/c/oorers" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/ee74bd47-1a0b-47e7-b44b-a7c2f442bc23.png" alt="OORers" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;OORers&quot;)"></span><span class="tn">OORers</span><span class="ta">ONE OK ROCK</span></a><a class="tile" href="https://app.stationhead.com/c/5sosfam" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/1e190081-ec0d-46c2-aa75-ddf7a3e6203c.png" alt="5SOS FAM" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;5SOS FAM&quot;)"></span><span class="tn">5SOS FAM</span><span class="ta">5 Seconds of Summer</span></a><a class="tile" href="https://app.stationhead.com/c/blackroses" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/f56c8aa3-3878-4721-9d6b-15babb81aad5.png" alt="Black Roses" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;Black Roses&quot;)"></span><span class="tn">Black Roses</span><span class="ta">The Rose</span></a></div>
+<p class="fine">Every link verified live on 25 August 2026. Tap any tile to open the channel.</p><div class="next" aria-hidden="true"></div></div>
+</section>
+<section class="card" id="rock-3" data-tags="rock">
+<div class="inner"><p class="kicker">Rock / Alt</p>
+<h2>How it behaves.</h2>
+<p class="lead">Rock and alt rooms are built around records rather than singles. A full album played front to back is the natural shape of a show here.</p>
+<p class="lead">These fandoms have long memories and deep catalogs, so anniversaries land as hard as new releases.</p><div class="next" aria-hidden="true"></div></div>
+</section>
+<section class="card" id="rock-4" data-tags="rock">
+<div class="inner"><p class="kicker">Rock / Alt</p>
+<h2>The play.</h2>
+<p class="lead big">Best play: an album anniversary night, artist joins to introduce the record, exclusive vinyl in the shop.</p>
+<p class="fine">Bring us the date and we will build the room around it.</p><div class="next" aria-hidden="true"></div></div>
+</section>
+<section class="card" id="latin-1" data-tags="latin">
+<div class="inner">
+<p class="kicker">Latin</p>
+<h2>14 live rooms in Latin.</h2>
+<div class="stats">
+  <div class="stat"><b>232,068</b><span>community members across these rooms</span></div>
+  <div class="stat"><b>217</b><span>fan hosts affiliated to them</span></div>
+  <div class="stat"><b>10,289,149</b><span>streams played in these rooms to date</span></div>
+</div>
+<p class="fine">Aggregate across the 14 channels on the next card. Pulled 25 August 2026.</p>
+<div class="next" aria-hidden="true"></div></div>
+</section>
+<section class="card" id="latin-2" data-tags="latin">
+<div class="inner"><p class="kicker">Latin</p>
+<h2>The rooms.</h2>
+<div class="wall"><a class="tile" href="https://app.stationhead.com/c/kggang" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/f6a24497-8dd3-47cb-9ef8-19c42295c388.png" alt="KG Gang" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;KG Gang&quot;)"></span><span class="tn">KG Gang</span><span class="ta">KAROL G</span></a><a class="tile" href="https://app.stationhead.com/c/anitters" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/5cbd6ad3-5b99-4797-b5a5-7ef3ae1546eb.png" alt="Anitters" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;Anitters&quot;)"></span><span class="tn">Anitters</span><span class="ta">Anitta</span></a><a class="tile" href="https://app.stationhead.com/c/wolfpack" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/a09fbb48-0b99-446c-96e5-8921c0950c30.png" alt="Wolfpack" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;Wolfpack&quot;)"></span><span class="tn">Wolfpack</span><span class="ta">Shakira</span></a><a class="tile" href="https://app.stationhead.com/c/cactos" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/b316ffbf-78fc-4c4e-9c00-e5ddef6b0aab.png" alt="Cactos" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;Cactos&quot;)"></span><span class="tn">Cactos</span><span class="ta">Juliette</span></a><a class="tile" href="https://app.stationhead.com/c/manada" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/ebdbb98a-be68-4ee2-93a9-f8af5ad79a97.png" alt="MANADA" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;MANADA&quot;)"></span><span class="tn">MANADA</span><span class="ta">HUMBE</span></a><a class="tile" href="https://app.stationhead.com/c/losconejos" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/b6366ea9-8749-4ddc-8bf0-9a8dcfe504e5.png" alt="Los Conejos" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;Los Conejos&quot;)"></span><span class="tn">Los Conejos</span><span class="ta">Bad Bunny</span></a><a class="tile" href="https://app.stationhead.com/c/kuchis" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/8913057f-e31b-4b44-82a6-5b2dcf6595cd.png" alt="Kuchis" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;Kuchis&quot;)"></span><span class="tn">Kuchis</span><span class="ta">Kali Uchis</span></a><a class="tile" href="https://app.stationhead.com/c/latribu" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/0f9fab12-bee4-420d-9a4d-ab1b17cdcd4e.png" alt="La Tribu" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;La Tribu&quot;)"></span><span class="tn">La Tribu</span><span class="ta">Camilo</span></a><a class="tile" href="https://app.stationhead.com/c/angeles" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/735bbbee-1e48-4076-bb05-7766be28e2c2.png" alt="Angeles" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;Angeles&quot;)"></span><span class="tn">Angeles</span><span class="ta">Rosalia</span></a><a class="tile" href="https://app.stationhead.com/c/vittarLovers" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/94c9613f-9ff8-4b96-8ab5-f3745bb8be7e.png" alt="VittarLovers" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;VittarLovers&quot;)"></span><span class="tn">VittarLovers</span><span class="ta">Pabllo Vittar</span></a><a class="tile" href="https://app.stationhead.com/c/sonzers" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/9856ae3a-191e-4c59-8a10-a4975371bb26.png" alt="Sonzers" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;Sonzers&quot;)"></span><span class="tn">Sonzers</span><span class="ta">Luisa Sonza</span></a><a class="tile" href="https://app.stationhead.com/c/mikorillo" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/270aaf11-a6fa-4102-8bfa-dac088637324.png" alt="Mikorillo" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;Mikorillo&quot;)"></span><span class="tn">Mikorillo</span><span class="ta">Young Miko</span></a><a class="tile" href="https://app.stationhead.com/c/cornejitos" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/ebec1a84-aa15-4501-b6a6-706222707635.png" alt="Cornejitos" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;Cornejitos&quot;)"></span><span class="tn">Cornejitos</span><span class="ta">Ivan Cornejo</span></a><a class="tile" href="https://app.stationhead.com/c/beasters" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/ffa93184-17c9-4fef-9ffa-9330d84e7ac5.png" alt="Beasters" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;Beasters&quot;)"></span><span class="tn">Beasters</span><span class="ta">Becky G</span></a></div>
+<p class="fine">Every link verified live on 25 August 2026. Tap any tile to open the channel.</p><div class="next" aria-hidden="true"></div></div>
+</section>
+<section class="card" id="latin-3" data-tags="latin">
+<div class="inner"><p class="kicker">Latin</p>
+<h2>How it behaves.</h2>
+<p class="lead">The Latin rooms run across time zones and languages at once, and the chat moves between them without missing a beat.</p>
+<p class="lead">Fans here bring friends in. A single well-timed room tends to pull an audience that was not on the platform that morning.</p><div class="next" aria-hidden="true"></div></div>
+</section>
+<section class="card" id="latin-4" data-tags="latin">
+<div class="inner"><p class="kicker">Latin</p>
+<h2>The play.</h2>
+<p class="lead big">Best play: a release night hosted in the fandom's own language, artist voice note if the diary is tight.</p>
+<p class="fine">Bring us the date and we will build the room around it.</p><div class="next" aria-hidden="true"></div></div>
+</section>
+<section class="card" id="kpop-1" data-tags="kpop">
+<div class="inner">
+<p class="kicker">K-pop / J-pop</p>
+<h2>16 live rooms in K-pop / J-pop.</h2>
+<div class="stats">
+  <div class="stat"><b>13,929,150</b><span>community members across these rooms</span></div>
+  <div class="stat"><b>9,001</b><span>fan hosts affiliated to them</span></div>
+  <div class="stat"><b>5,495,360,244</b><span>streams played in these rooms to date</span></div>
+</div>
+<p class="fine">Aggregate across the 16 channels on the next card. Pulled 25 August 2026.</p>
+<div class="next" aria-hidden="true"></div></div>
+</section>
+<section class="card" id="kpop-2" data-tags="kpop">
+<div class="inner"><p class="kicker">K-pop / J-pop</p>
+<h2>The rooms.</h2>
+<div class="wall"><a class="tile" href="https://app.stationhead.com/c/army" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/66b77091-237b-41f4-b8eb-ea10d5c28652.png" alt="BTS ARMY" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;BTS ARMY&quot;)"></span><span class="tn">BTS ARMY</span><span class="ta">BTS</span></a><a class="tile" href="https://app.stationhead.com/c/stays" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/84684458-9ed0-422f-9981-0c625972282e.png" alt="STAYS" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;STAYS&quot;)"></span><span class="tn">STAYS</span><span class="ta">Stray Kids</span></a><a class="tile" href="https://app.stationhead.com/c/blinks" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/541a07cd-d48c-463a-924f-7902a92ad264.png" alt="BLINKS" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;BLINKS&quot;)"></span><span class="tn">BLINKS</span><span class="ta">Blackpink</span></a><a class="tile" href="https://app.stationhead.com/c/ilys" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/43f3e6fc-72ef-454a-b2ac-b2891c2973a7.png" alt="iLYs" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;iLYs&quot;)"></span><span class="tn">iLYs</span><span class="ta">Number_i</span></a><a class="tile" href="https://app.stationhead.com/c/carat" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/5192bd47-d22b-424c-9bbc-82f10f784513.png" alt="CARAT" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;CARAT&quot;)"></span><span class="tn">CARAT</span><span class="ta">SEVENTEEN</span></a><a class="tile" href="https://app.stationhead.com/c/moa" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/c421f1cc-d56e-4fe1-b435-0bd50f60b75f.png" alt="MOA" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;MOA&quot;)"></span><span class="tn">MOA</span><span class="ta">TOMORROW x TOGETHER</span></a><a class="tile" href="https://app.stationhead.com/c/engene" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/22e95e6d-fcbe-4dd3-a266-f226de10082d.png" alt="ENGENE" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;ENGENE&quot;)"></span><span class="tn">ENGENE</span><span class="ta">ENHYPEN</span></a><a class="tile" href="https://app.stationhead.com/c/once" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/e852f626-ac59-4e99-80a9-a8b953494f98.png" alt="ONCE" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;ONCE&quot;)"></span><span class="tn">ONCE</span><span class="ta">TWICE</span></a><a class="tile" href="https://app.stationhead.com/c/atiny" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/fe17aed1-48d9-4f6b-814c-853d86e14fc9.png" alt="ATINY" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;ATINY&quot;)"></span><span class="tn">ATINY</span><span class="ta">ATEEZ</span></a><a class="tile" href="https://app.stationhead.com/c/jam" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/be0ad1db-2c79-4fc7-a67f-c0af20ad0a0a.png" alt="JAM" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;JAM&quot;)"></span><span class="tn">JAM</span><span class="ta">JO1</span></a><a class="tile" href="https://app.stationhead.com/c/mini" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/b304464f-9d1b-4981-b787-35152d983edc.png" alt="MINI" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;MINI&quot;)"></span><span class="tn">MINI</span><span class="ta">INI</span></a><a class="tile" href="https://app.stationhead.com/c/tiara" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/f0fadc03-8836-4214-9802-f2e5c0f83990.png" alt="Tiara" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;Tiara&quot;)"></span><span class="tn">Tiara</span><span class="ta">King &amp; Prince</span></a><a class="tile" href="https://app.stationhead.com/c/bunnies" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/fe33cf50-97c9-4dc1-99bc-5f1dd8a5ed32.png" alt="Bunnies" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;Bunnies&quot;)"></span><span class="tn">Bunnies</span><span class="ta">NewJeans</span></a><a class="tile" href="https://app.stationhead.com/c/dreamzen" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/d5e1c76e-648a-41dd-8060-a491323c5443.png" alt="Dreamzen" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;Dreamzen&quot;)"></span><span class="tn">Dreamzen</span><span class="ta">NCT DREAM</span></a><a class="tile" href="https://app.stationhead.com/c/fearnot" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/59f8c967-073f-4ac5-9fee-ab6d484efccc.png" alt="FEARNOT" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;FEARNOT&quot;)"></span><span class="tn">FEARNOT</span><span class="ta">LE SSERAFIM</span></a><a class="tile" href="https://app.stationhead.com/c/my" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/acb0ef1a-f798-4e79-a4f2-005dff3e8415.png" alt="my" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;my&quot;)"></span><span class="tn">my</span><span class="ta">aespa</span></a></div>
+<p class="fine">Every link verified live on 25 August 2026. Tap any tile to open the channel.</p><div class="next" aria-hidden="true"></div></div>
+</section>
+<section class="card" id="kpop-3" data-tags="kpop">
+<div class="inner"><p class="kicker">K-pop / J-pop</p>
+<h2>How it behaves.</h2>
+<p class="lead">This is the deepest part of the platform. The rooms run daily without any label involvement, and they have been running for years.</p>
+<p class="lead">Fan hosts here are effectively a broadcast network. The infrastructure is already built and it is waiting to be pointed at something.</p><div class="next" aria-hidden="true"></div></div>
+</section>
+<section class="card" id="kpop-4" data-tags="kpop">
+<div class="inner"><p class="kicker">K-pop / J-pop</p>
+<h2>The play.</h2>
+<p class="lead big">Best play: fan hosts run the countdown, artist joins for the drop, exclusive item on sale for the hour only.</p>
+<p class="fine">Bring us the date and we will build the room around it.</p><div class="next" aria-hidden="true"></div></div>
+</section>
+<section class="card" id="catalog-1" data-tags="catalog">
+<div class="inner">
+<p class="kicker">Catalog</p>
+<h2>13 live rooms in Catalog.</h2>
+<div class="stats">
+  <div class="stat"><b>195,767</b><span>community members across these rooms</span></div>
+  <div class="stat"><b>504</b><span>fan hosts affiliated to them</span></div>
+  <div class="stat"><b>39,743,843</b><span>streams played in these rooms to date</span></div>
+</div>
+<p class="fine">Aggregate across the 13 channels on the next card. Pulled 25 August 2026.</p>
+<div class="next" aria-hidden="true"></div></div>
+</section>
+<section class="card" id="catalog-2" data-tags="catalog">
+<div class="inner"><p class="kicker">Catalog</p>
+<h2>The rooms.</h2>
+<div class="wall"><a class="tile" href="https://app.stationhead.com/c/lambs" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/f6ed0974-7ed7-46c1-8102-845d8d9eb5de.png" alt="Lambs" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;Lambs&quot;)"></span><span class="tn">Lambs</span><span class="ta">Mariah Carey</span></a><a class="tile" href="https://app.stationhead.com/c/moonwalkers" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/9f567785-a889-44de-bc33-9f427fc8d3f1.png" alt="Moonwalkers" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;Moonwalkers&quot;)"></span><span class="tn">Moonwalkers</span><span class="ta">Michael Jackson</span></a><a class="tile" href="https://app.stationhead.com/c/jlovers" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/e30de912-30c2-4ee2-8e9c-ffea68d543d7.png" alt="JLovers" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;JLovers&quot;)"></span><span class="tn">JLovers</span><span class="ta">Jennifer Lopez</span></a><a class="tile" href="https://app.stationhead.com/c/nsyncers" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/9258fba0-399d-46ef-b04d-1605edf21f9c.png" alt="*NSYNCERS" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;*NSYNCERS&quot;)"></span><span class="tn">*NSYNCERS</span><span class="ta">*NSYNC</span></a><a class="tile" href="https://app.stationhead.com/c/britneyarmy" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/3fb2a449-2982-4837-8a12-d1d00fa86521.png" alt="Britney Army" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;Britney Army&quot;)"></span><span class="tn">Britney Army</span><span class="ta">Britney Spears</span></a><a class="tile" href="https://app.stationhead.com/c/rebelhearts" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/638124ea-505d-42a2-8a4e-10a08bda531e.png" alt="Rebel Hearts" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;Rebel Hearts&quot;)"></span><span class="tn">Rebel Hearts</span><span class="ta">Madonna</span></a><a class="tile" href="https://app.stationhead.com/c/bsbarmy" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/936ad416-7be1-4bbc-88cc-47444521b85a.png" alt="BSB Army" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;BSB Army&quot;)"></span><span class="tn">BSB Army</span><span class="ta">Backstreet Boys</span></a><a class="tile" href="https://app.stationhead.com/c/nelstars" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/4d2e0513-4f54-4e06-8318-aa5abfe01a4e.png" alt="Nelstars" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;Nelstars&quot;)"></span><span class="tn">Nelstars</span><span class="ta">Nelly Furtado</span></a><a class="tile" href="https://app.stationhead.com/c/janfam" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/8e545ed2-0671-48a6-aaaa-56eec3eb940e.png" alt="JanFam" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;JanFam&quot;)"></span><span class="tn">JanFam</span><span class="ta">Janet Jackson</span></a><a class="tile" href="https://app.stationhead.com/c/vips" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/bae0e021-c98e-46d8-92ea-41a15f9a5e9f.png" alt="VIPs" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;VIPs&quot;)"></span><span class="tn">VIPs</span><span class="ta">BIGBANG</span></a><a class="tile" href="https://app.stationhead.com/c/elf" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/e5da89ec-07f1-4490-bf4f-157d80f5c0b5.png" alt="E.L.F" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;E.L.F&quot;)"></span><span class="tn">E.L.F</span><span class="ta">SUPER JUNIOR</span></a><a class="tile" href="https://app.stationhead.com/c/sone" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/06ea2edd-ecf0-456c-b186-5abad9d669a7.png" alt="Sone" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;Sone&quot;)"></span><span class="tn">Sone</span><span class="ta">Girls' Generation</span></a><a class="tile" href="https://app.stationhead.com/c/shawol" target="_blank" rel="noopener"><span class="tw"><img src="https://stationhead-production1-images.s3.amazonaws.com/images/Channel/logo/672/f4aec48b-58ff-4db3-b18d-ef0c5f7f5a58.png" alt="Shawol" loading="lazy" onerror="this.style.display=&quot;none&quot;;this.parentNode.classList.add(&quot;fallback&quot;);this.parentNode.setAttribute(&quot;data-fb&quot;,&quot;Shawol&quot;)"></span><span class="tn">Shawol</span><span class="ta">SHINee</span></a></div>
+<p class="fine">Every link verified live on 25 August 2026. Tap any tile to open the channel.</p><div class="next" aria-hidden="true"></div></div>
+</section>
+<section class="card" id="catalog-3" data-tags="catalog">
+<div class="inner"><p class="kicker">Catalog</p>
+<h2>How it behaves.</h2>
+<p class="lead">Catalog rooms exist because fans wanted somewhere to keep playing records that are decades old. They did not need a campaign to start.</p>
+<p class="lead">An anniversary is a reason to gather. The audience is already assembled and it responds to being acknowledged.</p><div class="next" aria-hidden="true"></div></div>
+</section>
+<section class="card" id="catalog-4" data-tags="catalog">
+<div class="inner"><p class="kicker">Catalog</p>
+<h2>The play.</h2>
+<p class="lead big">Best play: a milestone night played in album order, with a recorded message from the artist or the estate.</p>
+<p class="fine">Bring us the date and we will build the room around it.</p><div class="next" aria-hidden="true"></div></div>
+</section>
+<section class="card" id="closer" data-tags="core">
+<div class="inner">
+<p class="kicker">One more thing</p>
+<h2>There was AM. There was FM. There was XM.</h2>
+<p class="future">The future is <em>ON</em>.</p>
+<p class="lockup"><span class="wordmark">STATI<i class="dot"></i>NHEAD</span><span class="tagline">Listen live. Stream together.</span></p>
+</div>
+</section>
+</main>
+<script>
+(function(){
+  var feed=document.getElementById('feed');
+  var cards=[].slice.call(document.querySelectorAll('.card'));
+  var pills=[].slice.call(document.querySelectorAll('.pill'));
+  var count=document.getElementById('count');
+
+  function matches(card,f){
+    var tags=(card.getAttribute('data-tags')||'').split(' ');
+    if(f==='all') return true;
+    if(f==='how') return tags.indexOf('how')>-1||tags.indexOf('core')>-1;
+    return tags.indexOf(f)>-1||tags.indexOf('core')>-1;
+  }
+
+  function apply(f){
+    var shown=[];
+    cards.forEach(function(c){
+      var ok=matches(c,f);
+      if(ok){c.hidden=false;shown.push(c);}else{c.hidden=true;}
+    });
+    count.textContent=shown.length+(shown.length===1?' card':' cards');
+    pills.forEach(function(p){
+      p.classList.toggle('on',p.getAttribute('data-filter')===f);
+    });
+
+    var target=shown[0]||null;
+    if(f!=='all'){
+      for(var i=0;i<shown.length;i++){
+        var tags=(shown[i].getAttribute('data-tags')||'').split(' ');
+        if(tags.indexOf(f)>-1){target=shown[i];break;}
+      }
+    }
+    if(target){
+      document.documentElement.setAttribute('data-landed',target.id);
+      document.documentElement.setAttribute('data-shown',String(shown.length));
+      if(typeof target.scrollIntoView==='function'){
+        try{target.scrollIntoView({block:'start'});}catch(e){}
+      }
+      if(feed&&f==='all'){feed.scrollTop=0;}
+    }
+    return shown.length;
+  }
+
+  pills.forEach(function(p){
+    p.addEventListener('click',function(){apply(p.getAttribute('data-filter'));});
+  });
+
+  var steps=[].slice.call(document.querySelectorAll('.step'));
+  var reveal=document.getElementById('reveal');
+  if(reveal){
+    var panes=[].slice.call(reveal.querySelectorAll('p'));
+    steps.forEach(function(s){
+      s.addEventListener('click',function(){
+        var k=s.getAttribute('data-step');
+        steps.forEach(function(x){x.classList.toggle('on',x===s);});
+        panes.forEach(function(p){p.hidden=(p.getAttribute('data-for')!==k);});
+      });
+    });
+    if(steps[0]){steps[0].classList.add('on');}
+  }
+
+  window.__applyFilter=apply;
+  apply('all');
+})();
+</script>
+</body>
+</html>
