@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Stationhead, the last three weeks</title>
+<meta name="description" content="What happened on Stationhead in the last three weeks. Artists and fans in the same room, playing the same song, at the same time. Every room can be played back.">
+
+<!-- Keep this page out of search results while it is a shared partner link.
+     Remove BOTH lines below only if you decide to make it publicly discoverable. -->
+<meta name="robots" content="noindex, nofollow">
+<meta name="googlebot" content="noindex, nofollow">
+
+<!-- ============================================================
+     DEPLOY: replace this one base URL with the real path, e.g.
+     https://jpslater0.github.io/partner-guide/live/   or   https://partners.stationhead.com/
+     It is used by the canonical tag and the two absolute image URLs below.
+     Social scrapers cannot resolve relative paths, so these must be absolute.
+     ============================================================ -->
+<link rel="canonical" href="https://jpslater0.github.io/partner-guide/live/">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Stationhead">
+<meta property="og:url" content="https://jpslater0.github.io/partner-guide/live/">
+<meta property="og:title" content="Stationhead, the last three weeks">
+<meta property="og:description" content="811,284 streams in six days with nothing being promoted. One in ten people in a room bought the record. Eight things that happened, all of them replayable.">
+<meta property="og:image" content="https://jpslater0.github.io/partner-guide/live/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Stationhead. What happened in the last three weeks.">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Stationhead, the last three weeks">
+<meta name="twitter:description" content="811,284 streams in six days with nothing being promoted. One in ten people in a room bought the record.">
+<meta name="twitter:image" content="https://jpslater0.github.io/partner-guide/live/og-image.png">
+
+<meta name="theme-color" content="#121212">
+<meta name="color-scheme" content="dark">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23121212'/%3E%3Ccircle cx='16' cy='16' r='7' fill='%23A663FF'/%3E%3C/svg%3E">
+<style>
+:root{
+  --black:#282526; --white:#FCFCFC; --purple:#A663FF; --mint:#79FFD2;
+  --cobalt:#2345E5; --sky:#2DD3FF; --violet:#4B31C2; --pink:#E994DF;
+  --surface:#121212;
+  --font:"Acumin Pro","Inter","Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{background:var(--surface);color:var(--white);font-family:var(--font);-webkit-font-smoothing:antialiased}
+
+#bar{position:fixed;top:0;left:0;right:0;z-index:40;background:rgba(18,18,18,.92);backdrop-filter:blur(14px);border-bottom:1px solid rgba(252,252,252,.09);padding:13px 16px}
+.brandrow{display:flex;align-items:center;gap:10px}
+.mark{font-weight:700;font-size:13px;letter-spacing:.03em}
+.dot{display:inline-block;width:.52em;height:.52em;border-radius:50%;background:var(--purple);vertical-align:.06em;margin:0 .04em}
+.asof{margin-left:auto;font-size:11px;letter-spacing:.03em;text-transform:uppercase;color:rgba(252,252,252,.5)}
+#prog{position:fixed;top:0;left:0;height:2px;background:var(--purple);width:0;z-index:50;transition:width .12s linear}
+
+#feed{height:100%;overflow-y:scroll;scroll-snap-type:y mandatory;scroll-behavior:smooth}
+.card{min-height:100%;scroll-snap-align:start;scroll-snap-stop:always;display:flex;flex-direction:column;justify-content:center;padding:92px 22px 52px;border-bottom:1px solid rgba(252,252,252,.07)}
+.when{font-size:11px;letter-spacing:.03em;text-transform:uppercase;color:var(--mint);font-weight:600;margin-bottom:12px}
+.who{font-size:14px;letter-spacing:.03em;color:rgba(252,252,252,.66);margin-bottom:8px;font-weight:600}
+h1{font-size:32px;line-height:1.1;font-weight:700;letter-spacing:-.01em;margin-bottom:14px}
+h2{font-size:26px;line-height:1.15;font-weight:700;letter-spacing:-.01em;margin-bottom:12px}
+p{font-size:16px;line-height:1.55;color:rgba(252,252,252,.82);margin-bottom:12px;max-width:34em}
+p.lead{font-size:18px;color:var(--white)}
+strong{color:var(--white);font-weight:600}
+.hero{font-size:58px;line-height:.98;font-weight:700;letter-spacing:-.025em;color:var(--purple);display:block}
+.herolbl{font-size:14px;letter-spacing:.03em;color:rgba(252,252,252,.66);margin:6px 0 20px;display:block}
+.figs{display:flex;flex-wrap:wrap;gap:18px 28px;margin:2px 0 18px}
+.fig .n{font-size:25px;font-weight:700;letter-spacing:-.01em;color:var(--white);display:block;line-height:1.1}
+.fig .l{font-size:12px;letter-spacing:.03em;color:rgba(252,252,252,.58)}
+.quote{border-left:2px solid var(--purple);padding:2px 0 2px 14px;margin:2px 0 16px;font-size:17px;line-height:1.45;color:var(--white);max-width:32em}
+.play{display:inline-flex;align-items:center;gap:9px;margin-top:2px;background:var(--purple);color:var(--white);text-decoration:none;font-size:15px;font-weight:600;padding:12px 22px;border-radius:100px;align-self:flex-start}
+.play .tri{width:0;height:0;border-left:9px solid #fff;border-top:6px solid transparent;border-bottom:6px solid transparent}
+.note{font-size:13px;color:rgba(252,252,252,.55);line-height:1.5;margin-top:14px;max-width:34em}
+ul{list-style:none;margin-bottom:12px;max-width:34em}
+li{font-size:15px;line-height:1.5;color:rgba(252,252,252,.82);padding-left:18px;position:relative;margin-bottom:8px}
+li:before{content:"";position:absolute;left:0;top:.6em;width:6px;height:6px;border-radius:50%;background:var(--mint)}
+ol{list-style:none;counter-reset:s;margin-bottom:12px;max-width:34em}
+ol li{padding-left:30px;counter-increment:s}
+ol li:before{content:counter(s);background:none;color:var(--purple);font-weight:700;font-size:14px;width:auto;height:auto;border-radius:0;top:0}
+
+/* Hero video. Hidden until a real file loads, so a partner never sees an empty box. */
+#videoslot{display:none;margin:4px 0 20px;max-width:46em}
+#videoslot.ready{display:block}
+#videoslot video{width:100%;border-radius:14px;background:#000;display:block;border:1px solid rgba(252,252,252,.14)}
+
+.closer{text-align:center;align-items:center}
+.closer p{text-align:center}
+.on{color:var(--mint)}
+.lockup{font-size:13px;letter-spacing:.03em;color:rgba(252,252,252,.6);margin-top:20px}
+@media(min-width:720px){
+  h1{font-size:44px} h2{font-size:33px} .hero{font-size:88px}
+  .card{padding:110px 60px 70px}
+  .fig .n{font-size:30px}
+}
+@media print{
+  #bar,#prog{display:none}
+  html,body{height:auto;background:#fff;color:#111}
+  #feed{height:auto;overflow:visible;display:block}
+  .card{min-height:0;page-break-inside:avoid;padding:18px 0;border-bottom:1px solid #ddd;display:block}
+  #videoslot{display:none !important}
+  h1,h2,strong,.fig .n{color:#111}
+  p,li{color:#333}
+  .when{color:#6a3fb5} .hero{color:#6a3fb5}
+  .quote{border-left:2px solid #6a3fb5;color:#111}
+  .play{border:1px solid #111;color:#111;background:none}
+  .play .tri{border-left-color:#111}
+}
+</style>
+</head>
+<body>
+
+<div id="prog"></div>
+<div id="bar">
+  <div class="brandrow">
+    <span class="mark">STATI<span class="dot"></span>NHEAD</span>
+    <span class="asof">Last three weeks &middot; to 10 Sept</span>
+  </div>
+</div>
+
+<div id="feed">
+
+<section class="card">
+  <p class="when">Listen live. Stream together.</p>
+  <h1>Stationhead is the home of social listening.</h1>
+  <div id="videoslot">
+    <video id="sizzle" controls playsinline preload="metadata">
+      <source src="stationhead-sizzle.mp4" type="video/mp4">
+    </video>
+  </div>
+  <p class="lead">Artists and fans in the same room, playing the same song, at the same time. Every play counts, because every play runs through the listener's own paid account.</p>
+  <p>Eight things below. All of them happened in the last three weeks. All of them can be played back right now.</p>
+</section>
+
+<section class="card">
+  <p class="when">21 to 26 August</p>
+  <p class="who">ENHYPEN</p>
+  <span class="hero">811,284</span>
+  <span class="herolbl">streams in six days, with nothing being promoted</span>
+  <div class="figs">
+    <div class="fig"><span class="n">5</span><span class="l">rooms in six days</span></div>
+    <div class="fig"><span class="n">240,343</span><span class="l">biggest single room</span></div>
+    <div class="fig"><span class="n">4h 31m</span><span class="l">longest of them</span></div>
+  </div>
+  <p>No release, no campaign, no media spend. Fans opened five rooms in six days and streamed eight hundred thousand times. This is the baseline the platform runs at when nobody is doing anything.</p>
+  <a class="play" href="https://app.stationhead.com/s/3499016"><span class="tri"></span>Play the biggest one back</a>
+</section>
+
+<section class="card">
+  <p class="when">10 September</p>
+  <p class="who">MARK</p>
+  <span class="hero">3 rooms</span>
+  <span class="herolbl">opened on release day, none of them by a label</span>
+  <div class="figs">
+    <div class="fig"><span class="n">97,678</span><span class="l">streams that day</span></div>
+    <div class="fig"><span class="n">28,937</span><span class="l">people across the three</span></div>
+    <div class="fig"><span class="n">16,954</span><span class="l">in the biggest room</span></div>
+  </div>
+  <p>This is what release day looks like here. Three rooms opened on their own, two of them running close to four hours, chat moving between Thai, Indonesian and English while fans posted which room to join so the streams would count.</p>
+  <a class="play" href="https://app.stationhead.com/s/3554147"><span class="tri"></span>Play the biggest room back</a>
+</section>
+
+<section class="card">
+  <p class="when">6 September</p>
+  <p class="who">Miley Cyrus</p>
+  <span class="hero">1 in 10</span>
+  <span class="herolbl">people in the room bought the record</span>
+  <div class="figs">
+    <div class="fig"><span class="n">229</span><span class="l">copies sold</span></div>
+    <div class="fig"><span class="n">110</span><span class="l">buyers, from 1,052 in the room</span></div>
+    <div class="fig"><span class="n">63%</span><span class="l">of the room were not members</span></div>
+  </div>
+  <p>Online retail converts in low single digits. This room converted at <strong>ten percent</strong>, buying while the song played, with no checkout to go and find.</p>
+  <p>Nobody official ran it. A fan opened the room, and 658 of the people in it were guests who had never signed up for anything.</p>
+  <a class="play" href="https://app.stationhead.com/s/3545032"><span class="tri"></span>Play the room back</a>
+</section>
+
+<section class="card">
+  <p class="when">29 August</p>
+  <p class="who">Sabrina Carpenter</p>
+  <span class="hero">8</span>
+  <span class="herolbl">chat messages every second, for forty four minutes</span>
+  <div class="figs">
+    <div class="fig"><span class="n">21,541</span><span class="l">messages</span></div>
+    <div class="fig"><span class="n">25,007</span><span class="l">streams</span></div>
+    <div class="fig"><span class="n">9,791</span><span class="l">people</span></div>
+  </div>
+  <p>The occasion was an album turning <strong>one year old</strong>. Nothing released, nothing announced, nobody paid to post. Ten thousand people came back to a record they already owned and sang it line by line into the chat, in capitals, in time with the track.</p>
+  <a class="play" href="https://app.stationhead.com/s/3523095"><span class="tri"></span>Play the room back</a>
+</section>
+
+<section class="card">
+  <p class="when">8 September</p>
+  <p class="who">Olivia Rodrigo</p>
+  <span class="hero">3 years</span>
+  <span class="herolbl">after release, and the room still ran at 321 messages a minute</span>
+  <div class="figs">
+    <div class="fig"><span class="n">7,850</span><span class="l">messages in under an hour</span></div>
+    <div class="fig"><span class="n">3,262</span><span class="l">people</span></div>
+    <div class="fig"><span class="n">23</span><span class="l">tracks played</span></div>
+  </div>
+  <p>Catalogue does not go quiet here. A three year old album pulled a full room on a Tuesday, and fans put up walls of Brazilian flags and looked after each other while it played.</p>
+  <p class="quote">"hi guys i hope yall remember you ARE pretty &lt;3"</p>
+  <a class="play" href="https://app.stationhead.com/s/3550154"><span class="tri"></span>Play the room back</a>
+</section>
+
+<section class="card">
+  <p class="when">5 to 8 September</p>
+  <p class="who">INI</p>
+  <span class="hero">370,013</span>
+  <span class="herolbl">plays in a single day, with the artist hosting</span>
+  <div class="figs">
+    <div class="fig"><span class="n">4</span><span class="l">nights hosted in a row</span></div>
+    <div class="fig"><span class="n">13m 28s</span><span class="l">longest time on the mic</span></div>
+    <div class="fig"><span class="n">3,574</span><span class="l">people, biggest night</span></div>
+  </div>
+  <p>Not a drop in. The group hosted their own room four nights running and took the mic every night. This is the ceiling, and the only variable that moved was the artist turning up.</p>
+  <a class="play" href="https://app.stationhead.com/s/3546799"><span class="tri"></span>Play night three back</a>
+</section>
+
+<section class="card">
+  <p class="when">4 September</p>
+  <p class="who">Paris Paloma</p>
+  <span class="hero">3m 28s</span>
+  <span class="herolbl">is all it took</span>
+  <div class="figs">
+    <div class="fig"><span class="n">11</span><span class="l">messages she typed herself</span></div>
+    <div class="fig"><span class="n">2,011</span><span class="l">messages in the room</span></div>
+  </div>
+  <p>Her own fan account was hosting. She walked in, spoke for three and a half minutes, then stayed in the chat like everybody else.</p>
+  <p>The smallest room here and the clearest picture of the whole thing. The audience had already assembled. She just showed up.</p>
+</section>
+
+<section class="card">
+  <p class="when">The pattern</p>
+  <h2>Nobody scheduled almost any of this.</h2>
+  <p>An album's first birthday. A three year old record. A countdown three days early. Five rooms in a week with nothing to promote. Fans opened every one of them.</p>
+  <p>An artist showing up is what turns one into an event, and the difference here is that the room is already full when they walk in.</p>
+  <div class="figs">
+    <div class="fig"><span class="n">13.7B</span><span class="l">streams all time</span></div>
+    <div class="fig"><span class="n">2M+</span><span class="l">people who have streamed</span></div>
+    <div class="fig"><span class="n">47,226</span><span class="l">shows in thirty days</span></div>
+    <div class="fig"><span class="n">161</span><span class="l">countries</span></div>
+  </div>
+  <p class="note">Streams are plays counted inside the room while it was on air, queried from the Stationhead database on 10 September 2026 for 20 August to 10 September. Every play button opens the actual recording. The Paris Paloma figures come from the internal event report for 4 September, and that show has no recording, so it has no play button.</p>
+</section>
+
+<section class="card">
+  <p class="when">Doing one</p>
+  <h2>It takes a date and an artist handle.</h2>
+  <ol>
+    <li>Confirm the channel. If fans built one already, we connect it rather than starting again.</li>
+    <li>Pick a time that suits the fans, not the office, and tell the regular hosts first. They fill the room before you post anything.</li>
+    <li>Announce it from the artist account. Date, time, time zone, one link. Nothing else is needed.</li>
+    <li>Go live from a phone. Connect the streaming account, queue a few songs, then say hello.</li>
+    <li>On air: read names out, take requests, talk between songs, and say the room stays open when you go.</li>
+  </ol>
+  <p class="note">One week is comfortable. Two days is possible.</p>
+</section>
+
+<section class="card">
+  <p class="when">What you can put in the room</p>
+  <h2>Four things, all of them quick.</h2>
+  <ul>
+    <li><strong>Digital purchase.</strong> The single or album, bought in the room while it plays. About a week.</li>
+    <li><strong>Shopify shop.</strong> Your existing store, opened inside the room. About a week.</li>
+    <li><strong>Voice note.</strong> Thirty seconds recorded on a phone, for when a live date will not work. Two days.</li>
+    <li><strong>Fan Channel.</strong> The permanent room fans join once and keep between releases. A few days.</li>
+  </ul>
+  <p class="note">To start we need the artist handle, a date, and anything you want to sell.</p>
+</section>
+
+<section class="card closer">
+  <p class="when">One last thing</p>
+  <h1>There was AM.<br>There was FM.<br>There was XM.<br><span class="on">The future is ON.</span></h1>
+  <p class="lockup">STATI<span class="dot"></span>NHEAD &middot; Listen live. Stream together.</p>
+</section>
+
+</div>
+
+<script>
+(function(){
+  var feed = document.getElementById('feed');
+  var prog = document.getElementById('prog');
+
+  // Reveal the hero video only if a real file actually loads.
+  var slot = document.getElementById('videoslot');
+  var vid = document.getElementById('sizzle');
+  if (vid && slot){
+    vid.addEventListener('loadeddata', function(){ slot.classList.add('ready'); });
+    vid.addEventListener('error', function(){ slot.classList.remove('ready'); }, true);
+  }
+
+  function onScroll(){
+    var max = feed.scrollHeight - feed.clientHeight;
+    var pct = max > 0 ? (feed.scrollTop / max) * 100 : 0;
+    prog.style.width = pct + '%';
+  }
+  feed.addEventListener('scroll', onScroll);
+  onScroll();
+})();
+</script>
+</body>
+</html>
