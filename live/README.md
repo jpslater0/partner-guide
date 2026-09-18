@@ -17,6 +17,7 @@ node live/build.mjs           # regenerate live/index.html
 | `build.mjs` | Renderer plus the pre-ship checks. No dependencies. |
 | `index.html` | Generated output. Committed, because GitHub Pages serves it. |
 | `og-image.png` | Social preview image. |
+| `queries.sql` | Verified metric queries, with what each one reconciled to. |
 
 ## Why build-time and not fetch-at-runtime
 
@@ -53,3 +54,57 @@ renders without a play button rather than with a dead one.
 deleted. A card whose replay has been deleted is a false claim in a partner's hands, so
 the weekly refresh re-checks every `broadcastId` and pulls the play button when the VOD
 has gone.
+
+
+## Where the numbers come from
+
+`queries.sql` holds the verified SQL, one block per metric, with the figure each
+one reconciled to. Three Metabase databases are involved:
+
+| Database | Holds |
+|---|---|
+| 2 `Production-Main` | shows, chat, channels, replay state |
+| 3 `Production-Starrocks` | per listener stream logs |
+| 7 `Production-Purchases` | music and Shopify purchases |
+
+A **stream** is one listener playing one track for at least 30 seconds.
+`listener_track_play_logs.duration` is in milliseconds, so the filter is
+`duration >= 30000`. Dropping that filter roughly doubles the number: ENHYPEN's
+room reads 434,888 unfiltered against 240,386 filtered. Never publish the
+unfiltered count.
+
+**People in the room** is `recorded_shows.listens`, not a count from the stream
+logs. `listens` includes guests with no linked music account; the stream logs
+only see people who actually streamed.
+
+Resolve a show's channel through `channels_stations`. `channels.current_station_id`
+returns NULL for past shows.
+
+## Retention: capture new figures within two weeks
+
+Measured 2026-09-18:
+
+| Table | Retention |
+|---|---|
+| `recorded_shows` | ~2576 days, effectively permanent |
+| `broadcast_history` | since 2023, effectively permanent |
+| `listener_track_play_logs` (db 3) | long lived |
+| `station_listener_history` | 60 days |
+| `chat_histories` | **30 days** |
+| `tracks_play_history` | **14 days** |
+
+Chat and listener figures for a show become unrecoverable about a month after it
+airs. So:
+
+- capture a new card's figures within two weeks of the show, or they are gone
+- **never recompute an archived card.** `data.json` freezes its figures on
+  purpose, and the Archive section says the numbers are as reported at the time
+
+## What the weekly job may and may not refresh
+
+Refresh automatically: the replay health check (block 2), the as-of date, the
+window, and platform figures that carry their own as-of date.
+
+Do not refresh automatically: any figure in the NOT RESOLVED list at the bottom
+of `queries.sql`, and any archived card. New cards get drafted for review, never
+published unsupervised, because this URL goes to managers and labels.
