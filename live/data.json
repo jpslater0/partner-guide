@@ -1,0 +1,276 @@
+{
+  "meta": {
+    "asOf": "2026-09-10",
+    "asOfLabel": "to 10 Sept",
+    "windowStart": "2026-08-20",
+    "windowDays": 21,
+    "windowLabel": "Last three weeks",
+    "title": "Stationhead, the last three weeks",
+    "baseUrl": "https://jpslater0.github.io/partner-guide/live/",
+    "noindex": true,
+    "description": "What happened on Stationhead in the last three weeks. Artists and fans in the same room, playing the same song, at the same time. Every room can be played back.",
+    "og": {
+      "description": "811,284 streams in six days with nothing being promoted. One in ten people in a room bought the record. {{CountCap}} {{thing}} that happened, all of them replayable.",
+      "twitterDescription": "811,284 streams in six days with nothing being promoted. One in ten people in a room bought the record.",
+      "imageAlt": "Stationhead. What happened in the last three weeks.",
+      "image": "og-image.png"
+    }
+  },
+  "intro": {
+    "when": "Listen live. Stream together.",
+    "h1": "Stationhead is the home of social listening.",
+    "video": "stationhead-sizzle.mp4",
+    "lead": "Artists and fans in the same room, playing the same song, at the same time. Every play counts, because every play runs through the listener's own paid account.",
+    "body": [
+      "{{CountCap}} {{thing}} below. All of them happened in the last three weeks. All of them can be played back right now."
+    ]
+  },
+  "events": [
+    {
+      "id": "enhypen-aug",
+      "date": "2026-08-26",
+      "when": "21 to 26 August",
+      "who": "ENHYPEN",
+      "hero": "811,284",
+      "herolbl": "streams in six days, with nothing being promoted",
+      "figs": [
+        {
+          "n": "5",
+          "l": "rooms in six days"
+        },
+        {
+          "n": "240,343",
+          "l": "biggest single room"
+        },
+        {
+          "n": "4h 31m",
+          "l": "longest of them"
+        }
+      ],
+      "body": [
+        "No release, no campaign, no media spend. Fans opened five rooms in six days and streamed eight hundred thousand times. This is the baseline the platform runs at when nobody is doing anything."
+      ],
+      "broadcastId": 3499016,
+      "playLabel": "Play the biggest one back"
+    },
+    {
+      "id": "mark-sep",
+      "date": "2026-09-10",
+      "when": "10 September",
+      "who": "MARK",
+      "hero": "3 rooms",
+      "herolbl": "opened on release day, none of them by a label",
+      "figs": [
+        {
+          "n": "97,678",
+          "l": "streams that day"
+        },
+        {
+          "n": "28,937",
+          "l": "people across the three"
+        },
+        {
+          "n": "16,954",
+          "l": "in the biggest room"
+        }
+      ],
+      "body": [
+        "This is what release day looks like here. Three rooms opened on their own, two of them running close to four hours, chat moving between Thai, Indonesian and English while fans posted which room to join so the streams would count."
+      ],
+      "broadcastId": 3554147,
+      "playLabel": "Play the biggest room back"
+    },
+    {
+      "id": "miley-sep",
+      "date": "2026-09-06",
+      "when": "6 September",
+      "who": "Miley Cyrus",
+      "hero": "1 in 10",
+      "herolbl": "people in the room bought the record",
+      "figs": [
+        {
+          "n": "229",
+          "l": "copies sold"
+        },
+        {
+          "n": "110",
+          "l": "buyers, from 1,052 in the room"
+        },
+        {
+          "n": "63%",
+          "l": "of the room were not members"
+        }
+      ],
+      "body": [
+        "Online retail converts in low single digits. This room converted at <strong>ten percent</strong>, buying while the song played, with no checkout to go and find.",
+        "Nobody official ran it. A fan opened the room, and 658 of the people in it were guests who had never signed up for anything."
+      ],
+      "broadcastId": 3545032,
+      "playLabel": "Play the room back"
+    },
+    {
+      "id": "sabrina-aug",
+      "date": "2026-08-29",
+      "when": "29 August",
+      "who": "Sabrina Carpenter",
+      "hero": "8",
+      "herolbl": "chat messages every second, for forty four minutes",
+      "figs": [
+        {
+          "n": "21,541",
+          "l": "messages"
+        },
+        {
+          "n": "25,007",
+          "l": "streams"
+        },
+        {
+          "n": "9,791",
+          "l": "people"
+        }
+      ],
+      "body": [
+        "The occasion was an album turning <strong>one year old</strong>. Nothing released, nothing announced, nobody paid to post. Ten thousand people came back to a record they already owned and sang it line by line into the chat, in capitals, in time with the track."
+      ],
+      "broadcastId": 3523095,
+      "playLabel": "Play the room back"
+    },
+    {
+      "id": "olivia-sep",
+      "date": "2026-09-08",
+      "when": "8 September",
+      "who": "Olivia Rodrigo",
+      "hero": "3 years",
+      "herolbl": "after release, and the room still ran at 321 messages a minute",
+      "figs": [
+        {
+          "n": "7,850",
+          "l": "messages in under an hour"
+        },
+        {
+          "n": "3,262",
+          "l": "people"
+        },
+        {
+          "n": "23",
+          "l": "tracks played"
+        }
+      ],
+      "body": [
+        "Catalogue does not go quiet here. A three year old album pulled a full room on a Tuesday, and fans put up walls of Brazilian flags and looked after each other while it played."
+      ],
+      "quote": "\"hi guys i hope yall remember you ARE pretty &lt;3\"",
+      "broadcastId": 3550154,
+      "playLabel": "Play the room back"
+    },
+    {
+      "id": "ini-sep",
+      "date": "2026-09-08",
+      "when": "5 to 8 September",
+      "who": "INI",
+      "hero": "370,013",
+      "herolbl": "plays in a single day, with the artist hosting",
+      "figs": [
+        {
+          "n": "4",
+          "l": "nights hosted in a row"
+        },
+        {
+          "n": "13m 28s",
+          "l": "longest time on the mic"
+        },
+        {
+          "n": "3,574",
+          "l": "people, biggest night"
+        }
+      ],
+      "body": [
+        "Not a drop in. The group hosted their own room four nights running and took the mic every night. This is the ceiling, and the only variable that moved was the artist turning up."
+      ],
+      "broadcastId": 3546799,
+      "playLabel": "Play night three back"
+    },
+    {
+      "id": "paris-sep",
+      "date": "2026-09-04",
+      "when": "4 September",
+      "who": "Paris Paloma",
+      "hero": "3m 28s",
+      "herolbl": "is all it took",
+      "figs": [
+        {
+          "n": "11",
+          "l": "messages she typed herself"
+        },
+        {
+          "n": "2,011",
+          "l": "messages in the room"
+        }
+      ],
+      "body": [
+        "Her own fan account was hosting. She walked in, spoke for three and a half minutes, then stayed in the chat like everybody else.",
+        "The smallest room here and the clearest picture of the whole thing. The audience had already assembled. She just showed up."
+      ],
+      "broadcastId": null,
+      "noRecordingReason": "internal event report, no recording"
+    }
+  ],
+  "pattern": {
+    "when": "The pattern",
+    "h2": "Nobody scheduled almost any of this.",
+    "body": [
+      "An album's first birthday. A three year old record. A countdown three days early. Five rooms in a week with nothing to promote. Fans opened every one of them.",
+      "An artist showing up is what turns one into an event, and the difference here is that the room is already full when they walk in."
+    ],
+    "figs": [
+      {
+        "n": "13.7B",
+        "l": "streams all time"
+      },
+      {
+        "n": "2M+",
+        "l": "people who have streamed"
+      },
+      {
+        "n": "47,226",
+        "l": "shows in thirty days"
+      },
+      {
+        "n": "161",
+        "l": "countries"
+      }
+    ],
+    "note": "Streams are plays counted inside the room while it was on air, queried from the Stationhead database on {{asOfLong}} for {{windowStartShort}} to {{asOfShort}}. Every play button opens the actual recording. The Paris Paloma figures come from the internal event report for 4 September, and that show has no recording, so it has no play button."
+  },
+  "archive": {
+    "when": "Before that",
+    "h2": "Everything else, still playable.",
+    "intro": "Rooms from earlier weeks. The numbers are as they were reported at the time.",
+    "emptyNote": "Nothing has rolled off the last three weeks yet."
+  },
+  "static": [
+    {
+      "when": "Doing one",
+      "h2": "It takes a date and an artist handle.",
+      "ol": [
+        "Confirm the channel. If fans built one already, we connect it rather than starting again.",
+        "Pick a time that suits the fans, not the office, and tell the regular hosts first. They fill the room before you post anything.",
+        "Announce it from the artist account. Date, time, time zone, one link. Nothing else is needed.",
+        "Go live from a phone. Connect the streaming account, queue a few songs, then say hello.",
+        "On air: read names out, take requests, talk between songs, and say the room stays open when you go."
+      ],
+      "note": "One week is comfortable. Two days is possible."
+    },
+    {
+      "when": "What you can put in the room",
+      "h2": "Four things, all of them quick.",
+      "ul": [
+        "<strong>Digital purchase.</strong> The single or album, bought in the room while it plays. About a week.",
+        "<strong>Shopify shop.</strong> Your existing store, opened inside the room. About a week.",
+        "<strong>Voice note.</strong> Thirty seconds recorded on a phone, for when a live date will not work. Two days.",
+        "<strong>Fan Channel.</strong> The permanent room fans join once and keep between releases. A few days."
+      ],
+      "note": "To start we need the artist handle, a date, and anything you want to sell."
+    }
+  ]
+}

@@ -1,0 +1,83 @@
+:root{
+  --black:#282526; --white:#FCFCFC; --purple:#A663FF; --mint:#79FFD2;
+  --cobalt:#2345E5; --sky:#2DD3FF; --violet:#4B31C2; --pink:#E994DF;
+  --surface:#121212;
+  --font:"Acumin Pro","Inter","Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{background:var(--surface);color:var(--white);font-family:var(--font);-webkit-font-smoothing:antialiased}
+
+#bar{position:fixed;top:0;left:0;right:0;z-index:40;background:rgba(18,18,18,.92);backdrop-filter:blur(14px);border-bottom:1px solid rgba(252,252,252,.09);padding:13px 16px}
+.brandrow{display:flex;align-items:center;gap:10px}
+.mark{font-weight:700;font-size:13px;letter-spacing:.03em}
+.dot{display:inline-block;width:.52em;height:.52em;border-radius:50%;background:var(--purple);vertical-align:.06em;margin:0 .04em}
+.asof{margin-left:auto;font-size:11px;letter-spacing:.03em;text-transform:uppercase;color:rgba(252,252,252,.5)}
+#prog{position:fixed;top:0;left:0;height:2px;background:var(--purple);width:0;z-index:50;transition:width .12s linear}
+
+#feed{height:100%;overflow-y:scroll;scroll-snap-type:y mandatory;scroll-behavior:smooth}
+.card{min-height:100%;scroll-snap-align:start;scroll-snap-stop:always;display:flex;flex-direction:column;justify-content:center;padding:92px 22px 52px;border-bottom:1px solid rgba(252,252,252,.07)}
+.when{font-size:11px;letter-spacing:.03em;text-transform:uppercase;color:var(--mint);font-weight:600;margin-bottom:12px}
+.who{font-size:14px;letter-spacing:.03em;color:rgba(252,252,252,.66);margin-bottom:8px;font-weight:600}
+h1{font-size:32px;line-height:1.1;font-weight:700;letter-spacing:-.01em;margin-bottom:14px}
+h2{font-size:26px;line-height:1.15;font-weight:700;letter-spacing:-.01em;margin-bottom:12px}
+p{font-size:16px;line-height:1.55;color:rgba(252,252,252,.82);margin-bottom:12px;max-width:34em}
+p.lead{font-size:18px;color:var(--white)}
+strong{color:var(--white);font-weight:600}
+.hero{font-size:58px;line-height:.98;font-weight:700;letter-spacing:-.025em;color:var(--purple);display:block}
+.herolbl{font-size:14px;letter-spacing:.03em;color:rgba(252,252,252,.66);margin:6px 0 20px;display:block}
+.figs{display:flex;flex-wrap:wrap;gap:18px 28px;margin:2px 0 18px}
+.fig .n{font-size:25px;font-weight:700;letter-spacing:-.01em;color:var(--white);display:block;line-height:1.1}
+.fig .l{font-size:12px;letter-spacing:.03em;color:rgba(252,252,252,.58)}
+.quote{border-left:2px solid var(--purple);padding:2px 0 2px 14px;margin:2px 0 16px;font-size:17px;line-height:1.45;color:var(--white);max-width:32em}
+.play{display:inline-flex;align-items:center;gap:9px;margin-top:2px;background:var(--purple);color:var(--white);text-decoration:none;font-size:15px;font-weight:600;padding:12px 22px;border-radius:100px;align-self:flex-start}
+.play .tri{width:0;height:0;border-left:9px solid #fff;border-top:6px solid transparent;border-bottom:6px solid transparent}
+.note{font-size:13px;color:rgba(252,252,252,.55);line-height:1.5;margin-top:14px;max-width:34em}
+ul{list-style:none;margin-bottom:12px;max-width:34em}
+li{font-size:15px;line-height:1.5;color:rgba(252,252,252,.82);padding-left:18px;position:relative;margin-bottom:8px}
+li:before{content:"";position:absolute;left:0;top:.6em;width:6px;height:6px;border-radius:50%;background:var(--mint)}
+ol{list-style:none;counter-reset:s;margin-bottom:12px;max-width:34em}
+ol li{padding-left:30px;counter-increment:s}
+ol li:before{content:counter(s);background:none;color:var(--purple);font-weight:700;font-size:14px;width:auto;height:auto;border-radius:0;top:0}
+
+/* Hero video. Hidden until a real file loads, so a partner never sees an empty box. */
+#videoslot{display:none;margin:4px 0 20px;max-width:46em}
+#videoslot.ready{display:block}
+#videoslot video{width:100%;border-radius:14px;background:#000;display:block;border:1px solid rgba(252,252,252,.14)}
+
+@media(min-width:720px){
+  h1{font-size:44px} h2{font-size:33px} .hero{font-size:88px}
+  .card{padding:110px 60px 70px}
+  .fig .n{font-size:30px}
+}
+@media print{
+  #bar,#prog{display:none}
+  html,body{height:auto;background:#fff;color:#111}
+  #feed{height:auto;overflow:visible;display:block}
+  .card{min-height:0;page-break-inside:avoid;padding:18px 0;border-bottom:1px solid #ddd;display:block}
+  #videoslot{display:none !important}
+  h1,h2,strong,.fig .n{color:#111}
+  p,li{color:#333}
+  .when{color:#6a3fb5} .hero{color:#6a3fb5}
+  .quote{border-left:2px solid #6a3fb5;color:#111}
+  .play{border:1px solid #111;color:#111;background:none}
+  .play .tri{border-left-color:#111}
+}
+
+/* Archive. Rooms that have rolled off the three week window.
+   Compact rows, because this list only grows. */
+.card.archcard{justify-content:flex-start}
+.archintro{font-size:14px;color:rgba(252,252,252,.6);margin-bottom:18px;max-width:34em}
+.archlist{display:flex;flex-direction:column;max-width:44em;width:100%}
+.archrow{display:flex;align-items:baseline;gap:8px 14px;flex-wrap:wrap;padding:14px 0;border-top:1px solid rgba(252,252,252,.09)}
+.archrow:last-child{border-bottom:1px solid rgba(252,252,252,.09)}
+.archwhen{font-size:11px;letter-spacing:.03em;text-transform:uppercase;color:var(--mint);font-weight:600;flex:0 0 auto}
+.archwho{font-size:16px;font-weight:600;color:var(--white);flex:0 0 auto}
+.archnum{font-size:15px;color:rgba(252,252,252,.72);flex:1 1 120px;min-width:0}
+.archplay{font-size:14px;font-weight:600;color:var(--purple);text-decoration:none;flex:0 0 auto}
+.archgone{font-size:13px;color:rgba(252,252,252,.38);flex:0 0 auto}
+@media print{
+  .archwhen{color:#6a3fb5} .archwho{color:#111} .archnum{color:#333}
+  .archplay{color:#111} .archintro{color:#333}
+  .archrow{border-top:1px solid #ddd}
+}

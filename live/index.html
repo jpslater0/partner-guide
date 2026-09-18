@@ -11,19 +11,16 @@
 <meta name="robots" content="noindex, nofollow">
 <meta name="googlebot" content="noindex, nofollow">
 
-<!-- ============================================================
-     DEPLOY: replace this one base URL with the real path, e.g.
-     https://jpslater0.github.io/partner-guide/live/   or   https://partners.stationhead.com/
-     It is used by the canonical tag and the two absolute image URLs below.
-     Social scrapers cannot resolve relative paths, so these must be absolute.
-     ============================================================ -->
+<!-- GENERATED FILE. Do not hand-edit.
+     Source: live/data.json  ->  node live/build.mjs
+     Built 2026-09-18 from data as of 2026-09-10. -->
 <link rel="canonical" href="https://jpslater0.github.io/partner-guide/live/">
 
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Stationhead">
 <meta property="og:url" content="https://jpslater0.github.io/partner-guide/live/">
 <meta property="og:title" content="Stationhead, the last three weeks">
-<meta property="og:description" content="811,284 streams in six days with nothing being promoted. One in ten people in a room bought the record. Eight things that happened, all of them replayable.">
+<meta property="og:description" content="811,284 streams in six days with nothing being promoted. One in ten people in a room bought the record. Seven things that happened, all of them replayable.">
 <meta property="og:image" content="https://jpslater0.github.io/partner-guide/live/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -103,6 +100,24 @@ ol li:before{content:counter(s);background:none;color:var(--purple);font-weight:
   .play{border:1px solid #111;color:#111;background:none}
   .play .tri{border-left-color:#111}
 }
+
+/* Archive. Rooms that have rolled off the three week window.
+   Compact rows, because this list only grows. */
+.card.archcard{justify-content:flex-start}
+.archintro{font-size:14px;color:rgba(252,252,252,.6);margin-bottom:18px;max-width:34em}
+.archlist{display:flex;flex-direction:column;max-width:44em;width:100%}
+.archrow{display:flex;align-items:baseline;gap:8px 14px;flex-wrap:wrap;padding:14px 0;border-top:1px solid rgba(252,252,252,.09)}
+.archrow:last-child{border-bottom:1px solid rgba(252,252,252,.09)}
+.archwhen{font-size:11px;letter-spacing:.03em;text-transform:uppercase;color:var(--mint);font-weight:600;flex:0 0 auto}
+.archwho{font-size:16px;font-weight:600;color:var(--white);flex:0 0 auto}
+.archnum{font-size:15px;color:rgba(252,252,252,.72);flex:1 1 120px;min-width:0}
+.archplay{font-size:14px;font-weight:600;color:var(--purple);text-decoration:none;flex:0 0 auto}
+.archgone{font-size:13px;color:rgba(252,252,252,.38);flex:0 0 auto}
+@media print{
+  .archwhen{color:#6a3fb5} .archwho{color:#111} .archnum{color:#333}
+  .archplay{color:#111} .archintro{color:#333}
+  .archrow{border-top:1px solid #ddd}
+}
 </style>
 </head>
 <body>
@@ -126,7 +141,7 @@ ol li:before{content:counter(s);background:none;color:var(--purple);font-weight:
     </video>
   </div>
   <p class="lead">Artists and fans in the same room, playing the same song, at the same time. Every play counts, because every play runs through the listener's own paid account.</p>
-  <p>Eight things below. All of them happened in the last three weeks. All of them can be played back right now.</p>
+  <p>Seven things below. All of them happened in the last three weeks. All of them can be played back right now.</p>
 </section>
 
 <section class="card">
