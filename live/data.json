@@ -1,7 +1,7 @@
 {
   "meta": {
-    "asOf": "2026-09-10",
-    "asOfLabel": "to 10 Sept",
+    "asOf": "2026-09-21",
+    "asOfLabel": "to 21 Sept",
     "windowStart": "2026-08-20",
     "windowDays": 21,
     "windowLabel": "{{SpanPhrase}}",
@@ -10,8 +10,8 @@
     "noindex": true,
     "description": "What happened on Stationhead in {{spanPhrase}}. Artists and fans in the same room, playing the same song, at the same time. Every room can be played back.",
     "og": {
-      "description": "811,284 streams in six days with nothing being promoted. One in ten people in a room bought the record. {{CountCap}} {{thing}} that happened, all of them replayable.",
-      "twitterDescription": "811,284 streams in six days with nothing being promoted. One in ten people in a room bought the record.",
+      "description": "71,652 streams in fifty five minutes on release day. One in ten people in a room bought the record. {{CountCap}} {{thing}} that happened, all of them replayable.",
+      "twitterDescription": "71,652 streams in fifty five minutes on release day. One in ten people in a room bought the record.",
       "imageAlt": "Stationhead. What happened in {{spanPhrase}}.",
       "image": "og-image.png"
     },
@@ -60,7 +60,8 @@
       ],
       "broadcastId": 3499016,
       "playLabel": "Play the biggest one back",
-      "region": "kpop"
+      "region": "kpop",
+      "figuresAsOf": "2026-09-10"
     },
     {
       "id": "mark-sep",
@@ -88,7 +89,38 @@
       ],
       "broadcastId": 3554147,
       "playLabel": "Play the biggest room back",
-      "region": "kpop"
+      "region": "kpop",
+      "figuresAsOf": "2026-09-10"
+    },
+    {
+      "id": "milk-sep",
+      "date": "2026-09-11",
+      "when": "11 September",
+      "who": "MILK",
+      "region": "jpop",
+      "figuresAsOf": "2026-09-21",
+      "hero": "71,652",
+      "herolbl": "streams in fifty five minutes, on release day",
+      "figs": [
+        {
+          "n": "11,525",
+          "l": "people in the room"
+        },
+        {
+          "n": "26,141",
+          "l": "messages"
+        },
+        {
+          "n": "475",
+          "l": "messages a minute"
+        }
+      ],
+      "body": [
+        "The group's own account opened the room to mark a release. Fifty five minutes, thirteen songs, and eleven thousand people playing every one of them through their own accounts.",
+        "The audience did not need assembling. It was already there, which is the only reason an hour is enough."
+      ],
+      "broadcastId": 3558013,
+      "playLabel": "Play the room back"
     },
     {
       "id": "miley-sep",
@@ -117,7 +149,8 @@
       ],
       "broadcastId": 3545032,
       "playLabel": "Play the room back",
-      "region": "western"
+      "region": "western",
+      "figuresAsOf": "2026-09-10"
     },
     {
       "id": "sabrina-aug",
@@ -145,7 +178,8 @@
       ],
       "broadcastId": 3523095,
       "playLabel": "Play the room back",
-      "region": "western"
+      "region": "western",
+      "figuresAsOf": "2026-09-10"
     },
     {
       "id": "olivia-sep",
@@ -174,7 +208,8 @@
       "quote": "\"hi guys i hope yall remember you ARE pretty &lt;3\"",
       "broadcastId": 3550154,
       "playLabel": "Play the room back",
-      "region": "western"
+      "region": "western",
+      "figuresAsOf": "2026-09-10"
     },
     {
       "id": "ini-sep",
@@ -202,7 +237,38 @@
       ],
       "broadcastId": 3546799,
       "playLabel": "Play night three back",
-      "region": "jpop"
+      "region": "jpop",
+      "figuresAsOf": "2026-09-10"
+    },
+    {
+      "id": "sakanaction-sep",
+      "date": "2026-09-17",
+      "when": "17 September",
+      "who": "Sakanaction",
+      "region": "jpop",
+      "figuresAsOf": "2026-09-21",
+      "hero": "5,174",
+      "herolbl": "people came for a label talk, with no band members there",
+      "figs": [
+        {
+          "n": "2h 07m",
+          "l": "on air"
+        },
+        {
+          "n": "11,118",
+          "l": "messages"
+        },
+        {
+          "n": "25,280",
+          "l": "streams"
+        }
+      ],
+      "body": [
+        "The show was billed as label staff talking, with a guest, and said plainly that no members would be there. Five thousand people came anyway and stayed two hours.",
+        "The room does not depend on the artist being in it. That is the part worth reading twice."
+      ],
+      "broadcastId": 3573372,
+      "playLabel": "Play the room back"
     },
     {
       "id": "paris-sep",
@@ -227,7 +293,8 @@
       ],
       "broadcastId": null,
       "noRecordingReason": "internal event report, no recording",
-      "region": "western"
+      "region": "western",
+      "figuresAsOf": "2026-09-10"
     }
   ],
   "pattern": {
@@ -255,7 +322,7 @@
         "l": "countries"
       }
     ],
-    "note": "Streams are plays counted inside the room while it was on air, queried from the Stationhead database on {{asOfLong}} for {{windowStartShort}} to {{asOfShort}}. Every play button opens the actual recording. The Paris Paloma figures come from the internal event report for 4 September, and that show has no recording, so it has no play button."
+    "note": "Streams are plays of at least thirty seconds, counted inside the room while it was on air, queried from the Stationhead database on {{figureDates}}. The platform totals are as of 10 September 2026. Every play button opens the actual recording. The Paris Paloma figures come from the internal event report for 4 September, and that show has no recording, so it has no play button."
   },
   "archive": {
     "when": "Before that",

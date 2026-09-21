@@ -76,6 +76,12 @@ const TOKENS = {
   '{{asOfShort}}': longDate(asOf, false),
   '{{windowStartShort}}': longDate(cutoff, false),
   '{{windowStartLong}}': longDate(cutoff, true),
+  '{{figureDates}}': (() => {
+    const ds = [...new Set(displayed.map(e => e.figuresAsOf).filter(Boolean))].sort();
+    const human = ds.map(x => longDate(new Date(x + 'T00:00:00Z'), true));
+    return human.length <= 1 ? (human[0] ?? longDate(asOf, true))
+         : human.slice(0, -1).join(', ') + ' and ' + human[human.length - 1];
+  })(),
   '{{spanPhrase}}': spanPhrase,
   '{{SpanPhrase}}': SpanPhrase,
 };
@@ -305,7 +311,13 @@ for (const [region, floor] of Object.entries(guarantees)) {
   }
 }
 
-// 7. Every event needs a region, or the guarantees cannot be checked.
+// 7a. Figures must carry a capture date, and it must not predate the show.
+for (const e of data.events) {
+  if (!e.figuresAsOf) { fail.push(`${e.id}: no figuresAsOf, cannot date its numbers`); continue; }
+  if (e.figuresAsOf < e.date) fail.push(`${e.id}: figuresAsOf ${e.figuresAsOf} is before the show on ${e.date}`);
+}
+
+// 7b. Every event needs a region, or the guarantees cannot be checked.
 for (const e of data.events) {
   if (!e.region) fail.push(`${e.id}: no region set, cannot enforce scene guarantees`);
 }
