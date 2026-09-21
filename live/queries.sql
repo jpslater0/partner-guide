@@ -241,6 +241,17 @@ WHERE station_id = :station_id
 --   "13.7B streams all time"   The db 3 lifetime aggregate TIMED OUT on
 --                              2026-09-18. Expected: the skill says to keep
 --                              the previous figure rather than guess.
+--                              Checked 2026-09-21 against platform_daily.parquet
+--                              in Rob Bonstein's shared "app" folder. It does
+--                              NOT resolve this, for three separate reasons:
+--                              it counts ALL plays with no duration column, so
+--                              it cannot apply the 30s rule; it starts only at
+--                              2024-01-01, so it is not all time; and it ends
+--                              2026-09-08, a frozen snapshot. It totals 26.23B
+--                              plays, which at the ~55% qualifying rate seen in
+--                              real rooms implies ~14.4B against the published
+--                              13.7B. Consistent, but not a derivation. Keep
+--                              13.7B frozen with its as-of date.
 --
 --   "2M+ people who have streamed"
 --                              Same query, same timeout. accounts in db 2 is
