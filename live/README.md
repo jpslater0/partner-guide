@@ -102,6 +102,19 @@ while showing something older.
 
 The build fails if a floor cannot be met, or if any event has no `region`.
 
+## The pattern card cites other cards, and no check can catch that
+
+`pattern.body[0]` lists examples in prose: "A three year old record", "Three
+rooms on release day". Each refers to a card elsewhere on the page. When the
+window rolls and those cards archive, the sentence still renders, still reads
+fine, and is quietly pointing at things the reader has to scroll past.
+
+This happened once already: the line cited Sabrina's album birthday and
+ENHYPEN's five rooms, and both archived on 21 September.
+
+No build check can catch prose referring to prose. **Reread the pattern card
+whenever a card archives.**
+
 ## Retention: capture new figures within two weeks
 
 Measured 2026-09-18:
