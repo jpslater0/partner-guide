@@ -27,13 +27,40 @@ const asOf = new Date(meta.asOf + 'T00:00:00Z');
 const cutoff = new Date(asOf.getTime() - meta.windowDays * 86400000);
 const iso = d => d.toISOString().slice(0, 10);
 
-// Recent cards keep the order they were authored in: the sequence is editorial
-// (strongest first), not chronological. Only the archive gets sorted.
-const recent = data.events.filter(e => e.date >= iso(cutoff));
-const archived = data.events.filter(e => e.date < iso(cutoff))
-                            .sort((a, b) => b.date.localeCompare(a.date));
+const inWindow  = data.events.filter(e => e.date >= iso(cutoff));
+const outWindow = data.events.filter(e => e.date <  iso(cutoff));
 
-const countWord = WORDS[recent.length] ?? String(recent.length);
+// Scene guarantees. The page must never become all one scene just because that
+// is what happened to be busy lately. A scene below its floor pulls its newest
+// cards back out of the archive, however old they are. Staler beats absent.
+const guarantees = meta.guarantees ?? {};
+const rescued = new Set();
+for (const [region, floor] of Object.entries(guarantees)) {
+  const have = inWindow.filter(e => e.region === region).length;
+  if (have >= floor) continue;
+  outWindow.filter(e => e.region === region)
+           .sort((a, b) => b.date.localeCompare(a.date))
+           .slice(0, floor - have)
+           .forEach(e => rescued.add(e.id));
+}
+
+// Displayed cards keep the order they were authored in: the sequence is
+// editorial (strongest first), not chronological. Only the archive gets sorted.
+const displayed = data.events.filter(e => e.date >= iso(cutoff) || rescued.has(e.id));
+const archived  = outWindow.filter(e => !rescued.has(e.id))
+                           .sort((a, b) => b.date.localeCompare(a.date));
+
+const countWord = WORDS[displayed.length] ?? String(displayed.length);
+
+// The headline timeframe is derived from the OLDEST card actually on show, not
+// from windowDays. Rescuing an older card widens the claim the page makes, and
+// the page must not say three weeks while showing something from six weeks ago.
+const oldestShown = displayed.reduce((m, e) => (e.date < m ? e.date : m), meta.asOf);
+const spanDays  = Math.round((asOf - new Date(oldestShown + 'T00:00:00Z')) / 86400000);
+const spanWeeks = Math.max(1, Math.ceil(spanDays / 7));
+const spanWord  = (WORDS[spanWeeks] ?? String(spanWeeks)).toLowerCase();
+const spanPhrase = spanWeeks === 1 ? 'the last week' : `the last ${spanWord} weeks`;
+const SpanPhrase = spanWeeks === 1 ? 'Last week'     : `Last ${spanWord} weeks`;
 
 // Long-form dates for the methodology note, so it cannot drift from the window.
 const MONTHS = ['January','February','March','April','May','June',
@@ -44,11 +71,13 @@ const longDate = (d, withYear) =>
 const TOKENS = {
   '{{CountCap}}': countWord,
   '{{count}}': countWord.toLowerCase(),
-  '{{thing}}': recent.length === 1 ? 'thing' : 'things',
+  '{{thing}}': displayed.length === 1 ? 'thing' : 'things',
   '{{asOfLong}}': longDate(asOf, true),
   '{{asOfShort}}': longDate(asOf, false),
   '{{windowStartShort}}': longDate(cutoff, false),
   '{{windowStartLong}}': longDate(cutoff, true),
+  '{{spanPhrase}}': spanPhrase,
+  '{{SpanPhrase}}': SpanPhrase,
 };
 const sub = s => Object.entries(TOKENS).reduce((acc, [k, v]) => acc.replaceAll(k, v), s);
 
@@ -157,7 +186,7 @@ const robots = meta.noindex
 
 const cards = [
   introCard(data.intro),
-  ...recent.map(eventCard),
+  ...displayed.map(eventCard),
   patternCard(data.pattern),
   archiveCard(data.archive, archived),
   ...data.static.map(staticCard),
@@ -168,8 +197,8 @@ const html = `<!DOCTYPE html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>${meta.title}</title>
-<meta name="description" content="${meta.description}">
+<title>${sub(meta.title)}</title>
+<meta name="description" content="${sub(meta.description)}">
 
 ${robots}
 
@@ -181,15 +210,15 @@ ${robots}
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Stationhead">
 <meta property="og:url" content="${meta.baseUrl}">
-<meta property="og:title" content="${meta.title}">
+<meta property="og:title" content="${sub(meta.title)}">
 <meta property="og:description" content="${sub(meta.og.description)}">
 <meta property="og:image" content="${meta.baseUrl}${meta.og.image}">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="${meta.og.imageAlt}">
+<meta property="og:image:alt" content="${sub(meta.og.imageAlt)}">
 
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="${meta.title}">
+<meta name="twitter:title" content="${sub(meta.title)}">
 <meta name="twitter:description" content="${sub(meta.og.twitterDescription)}">
 <meta name="twitter:image" content="${meta.baseUrl}${meta.og.image}">
 
@@ -206,7 +235,7 @@ ${css}
 <div id="bar">
   <div class="brandrow">
     <span class="mark">STATI<span class="dot"></span>NHEAD</span>
-    <span class="asof">${meta.windowLabel} &middot; ${meta.asOfLabel}</span>
+    <span class="asof">${sub(meta.windowLabel)} &middot; ${meta.asOfLabel}</span>
   </div>
 </div>
 
@@ -245,7 +274,7 @@ const social = sub(meta.og.description) + ' ' + sub(meta.og.twitterDescription);
 // Only the cards still inside the window count as backing. A figure that has
 // rolled into the archive must not headline the link preview.
 const currentText = [
-  JSON.stringify(recent),
+  JSON.stringify(displayed),
   JSON.stringify(data.pattern),
   JSON.stringify(data.intro),
 ].join(' ');
@@ -267,13 +296,33 @@ for (const e of data.events) {
   }
 }
 
-// 6. Card count sanity.
-if (recent.length === 0) fail.push('no cards fall inside the window, page would be empty');
+// 6. Scene guarantees must hold.
+for (const [region, floor] of Object.entries(guarantees)) {
+  const shown = displayed.filter(e => e.region === region).length;
+  if (shown < floor) {
+    fail.push(`only ${shown} ${region} card(s) on the page, floor is ${floor}. ` +
+              `Add one or lower meta.guarantees.${region}.`);
+  }
+}
+
+// 7. Every event needs a region, or the guarantees cannot be checked.
+for (const e of data.events) {
+  if (!e.region) fail.push(`${e.id}: no region set, cannot enforce scene guarantees`);
+}
+
+// 8. Card count sanity.
+if (displayed.length === 0) fail.push('no cards to show, page would be empty');
 
 /* ---------- report ---------- */
 const label = CHECK_ONLY ? 'check' : 'build';
 console.log(`[${label}] window ${iso(cutoff)} .. ${meta.asOf} (${meta.windowDays}d)`);
-console.log(`[${label}] ${recent.length} recent, ${archived.length} archived, ${cards.length} cards total`);
+const mix = Object.entries(displayed.reduce((a, e) => ((a[e.region] = (a[e.region] ?? 0) + 1), a), {}))
+                  .map(([r, n]) => `${r} ${n}`).join(', ');
+console.log(`[${label}] ${displayed.length} shown (${mix}), ${archived.length} archived, ${cards.length} cards total`);
+if (rescued.size) {
+  console.log(`[${label}] rescued from archive to hold a floor: ${[...rescued].join(', ')}`);
+}
+console.log(`[${label}] headline timeframe reads "${spanPhrase}" (oldest card ${oldestShown})`);
 console.log(`[${label}] social copy reads "${countWord} ${TOKENS['{{thing}}']}"`);
 for (const w of warn) console.log(`[warn]  ${w}`);
 for (const f of fail) console.log(`[FAIL]  ${f}`);

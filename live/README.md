@@ -80,6 +80,28 @@ only see people who actually streamed.
 Resolve a show's channel through `channels_stations`. `channels.current_station_id`
 returns NULL for past shows.
 
+## Scene guarantees: Western never drops off
+
+Every event carries a `region`: `western`, `kpop` or `jpop`. `meta.guarantees`
+sets a floor per scene:
+
+```json
+"guarantees": { "western": 2 }
+```
+
+If the window leaves fewer than the floor, the builder **pulls that scene's
+newest cards back out of the archive**, however old they are, and says so in
+its output. Staler beats absent. The page must never read as all one scene
+just because that scene happened to be busy that fortnight.
+
+A rescued card is older than the window, so the headline timeframe is derived
+from the **oldest card actually on show**, not from `windowDays`. Rescue two
+six week old cards and the title, the bar, the OG alt text and the intro all
+change themselves to "the last six weeks". The page cannot claim three weeks
+while showing something older.
+
+The build fails if a floor cannot be met, or if any event has no `region`.
+
 ## Retention: capture new figures within two weeks
 
 Measured 2026-09-18:

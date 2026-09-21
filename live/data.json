@@ -4,16 +4,24 @@
     "asOfLabel": "to 10 Sept",
     "windowStart": "2026-08-20",
     "windowDays": 21,
-    "windowLabel": "Last three weeks",
-    "title": "Stationhead, the last three weeks",
+    "windowLabel": "{{SpanPhrase}}",
+    "title": "Stationhead, {{spanPhrase}}",
     "baseUrl": "https://jpslater0.github.io/partner-guide/live/",
     "noindex": true,
-    "description": "What happened on Stationhead in the last three weeks. Artists and fans in the same room, playing the same song, at the same time. Every room can be played back.",
+    "description": "What happened on Stationhead in {{spanPhrase}}. Artists and fans in the same room, playing the same song, at the same time. Every room can be played back.",
     "og": {
       "description": "811,284 streams in six days with nothing being promoted. One in ten people in a room bought the record. {{CountCap}} {{thing}} that happened, all of them replayable.",
       "twitterDescription": "811,284 streams in six days with nothing being promoted. One in ten people in a room bought the record.",
-      "imageAlt": "Stationhead. What happened in the last three weeks.",
+      "imageAlt": "Stationhead. What happened in {{spanPhrase}}.",
       "image": "og-image.png"
+    },
+    "guarantees": {
+      "western": 2
+    },
+    "regionLabels": {
+      "western": "Western",
+      "kpop": "K-pop",
+      "jpop": "J-pop"
     }
   },
   "intro": {
@@ -22,7 +30,7 @@
     "video": "stationhead-sizzle.mp4",
     "lead": "Artists and fans in the same room, playing the same song, at the same time. Every play counts, because every play runs through the listener's own paid account.",
     "body": [
-      "{{CountCap}} {{thing}} below. All of them happened in the last three weeks. All of them can be played back right now."
+      "{{CountCap}} {{thing}} below. All of them happened in {{spanPhrase}}. All of them can be played back right now."
     ]
   },
   "events": [
@@ -51,7 +59,8 @@
         "No release, no campaign, no media spend. Fans opened five rooms in six days and streamed eight hundred thousand times. This is the baseline the platform runs at when nobody is doing anything."
       ],
       "broadcastId": 3499016,
-      "playLabel": "Play the biggest one back"
+      "playLabel": "Play the biggest one back",
+      "region": "kpop"
     },
     {
       "id": "mark-sep",
@@ -78,7 +87,8 @@
         "This is what release day looks like here. Three rooms opened on their own, two of them running close to four hours, chat moving between Thai, Indonesian and English while fans posted which room to join so the streams would count."
       ],
       "broadcastId": 3554147,
-      "playLabel": "Play the biggest room back"
+      "playLabel": "Play the biggest room back",
+      "region": "kpop"
     },
     {
       "id": "miley-sep",
@@ -106,7 +116,8 @@
         "Nobody official ran it. A fan opened the room, and 658 of the people in it were guests who had never signed up for anything."
       ],
       "broadcastId": 3545032,
-      "playLabel": "Play the room back"
+      "playLabel": "Play the room back",
+      "region": "western"
     },
     {
       "id": "sabrina-aug",
@@ -133,7 +144,8 @@
         "The occasion was an album turning <strong>one year old</strong>. Nothing released, nothing announced, nobody paid to post. Ten thousand people came back to a record they already owned and sang it line by line into the chat, in capitals, in time with the track."
       ],
       "broadcastId": 3523095,
-      "playLabel": "Play the room back"
+      "playLabel": "Play the room back",
+      "region": "western"
     },
     {
       "id": "olivia-sep",
@@ -161,7 +173,8 @@
       ],
       "quote": "\"hi guys i hope yall remember you ARE pretty &lt;3\"",
       "broadcastId": 3550154,
-      "playLabel": "Play the room back"
+      "playLabel": "Play the room back",
+      "region": "western"
     },
     {
       "id": "ini-sep",
@@ -188,7 +201,8 @@
         "Not a drop in. The group hosted their own room four nights running and took the mic every night. This is the ceiling, and the only variable that moved was the artist turning up."
       ],
       "broadcastId": 3546799,
-      "playLabel": "Play night three back"
+      "playLabel": "Play night three back",
+      "region": "jpop"
     },
     {
       "id": "paris-sep",
@@ -212,7 +226,8 @@
         "The smallest room here and the clearest picture of the whole thing. The audience had already assembled. She just showed up."
       ],
       "broadcastId": null,
-      "noRecordingReason": "internal event report, no recording"
+      "noRecordingReason": "internal event report, no recording",
+      "region": "western"
     }
   ],
   "pattern": {
