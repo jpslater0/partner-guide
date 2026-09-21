@@ -216,6 +216,24 @@ FROM recorded_shows
 WHERE date >= NOW() - INTERVAL 30 DAY;
 
 
+-- ---------------------------------------------------------------------------
+-- 12. DISTINCT TRACKS PLAYED IN A ROOM  (db 3)
+-- Count from the warehouse, NOT from db 2. Verified 2026-09-21: Olivia's room
+-- returns 24 distinct track_id (and 24 distinct isrc) against a published 23.
+--
+-- Do not use recorded_shows_tracks or tracks_play_history for this. Both
+-- returned 17 for the same show, because tracks_play_history keeps only 14
+-- days and recorded_shows_tracks holds what made it into the recording, which
+-- is fewer tracks than were actually played to listeners.
+-- ---------------------------------------------------------------------------
+SELECT COUNT(DISTINCT track_id) AS distinct_tracks,
+       COUNT(DISTINCT isrc)     AS distinct_isrcs
+FROM production.listener_track_play_logs
+WHERE station_id = :station_id
+  AND event_time >= :start
+  AND event_time <  :end;
+
+
 -- ============================================================================
 -- NOT RESOLVED. Do not auto-refresh these. Keep the published figure with its
 -- as-of date, exactly as the refresh-partner-guide skill instructs.
@@ -233,12 +251,6 @@ WHERE date >= NOW() - INTERVAL 30 DAY;
 --                              users.country (db 2) and
 --                              track_purchase_transactions.country (db 7)
 --                              exist but neither was reconciled to 161.
---
---   "23 tracks played" (Olivia) DISPUTED. recorded_shows_tracks and
---                              tracks_play_history BOTH return 17 for that
---                              show. Either the published figure is wrong or
---                              it counts something else. Resolve before the
---                              card is refreshed or archived.
 --
 --   "13m 28s longest on the mic" (INI)
 --                              recorded_shows.all_voice holds a URL to an
