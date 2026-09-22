@@ -50,12 +50,15 @@ const displayed = data.events.filter(e => e.date >= iso(cutoff) || rescued.has(e
 const archived  = outWindow.filter(e => !rescued.has(e.id))
                            .sort((a, b) => b.date.localeCompare(a.date));
 
-const countWord = WORDS[displayed.length] ?? String(displayed.length);
+const alsoRanRows = data.alsoRan?.rows ?? [];
+const shownTotal = displayed.length + alsoRanRows.length;
+const countWord = WORDS[shownTotal] ?? String(shownTotal);
 
 // The headline timeframe is derived from the OLDEST card actually on show, not
 // from windowDays. Rescuing an older card widens the claim the page makes, and
 // the page must not say three weeks while showing something from six weeks ago.
-const oldestShown = displayed.reduce((m, e) => (e.date < m ? e.date : m), meta.asOf);
+const oldestShown = [...displayed, ...alsoRanRows]
+  .reduce((m, e) => (e.date && e.date < m ? e.date : m), meta.asOf);
 const spanDays  = Math.round((asOf - new Date(oldestShown + 'T00:00:00Z')) / 86400000);
 const spanWeeks = Math.max(1, Math.ceil(spanDays / 7));
 // Past about two months, weeks stop reading naturally, so switch to months.
@@ -75,7 +78,7 @@ const longDate = (d, withYear) =>
 const TOKENS = {
   '{{CountCap}}': countWord,
   '{{count}}': countWord.toLowerCase(),
-  '{{show}}': displayed.length === 1 ? 'show' : 'shows',
+  '{{show}}': shownTotal === 1 ? 'show' : 'shows',
   '{{asOfLong}}': longDate(asOf, true),
   '{{asOfShort}}': longDate(asOf, false),
   '{{windowStartShort}}': longDate(cutoff, false),
@@ -215,6 +218,24 @@ ${rows}
 </section>`;
 };
 
+const alsoRanCard = (a) => {
+  if (!a?.rows?.length) return '';
+  const rows = a.rows.map(r => {
+    const tail = r.broadcastId
+      ? `<a class="archplay" href="${PLAY_BASE}${r.broadcastId}">Play back</a>`
+      : `<span class="archgone">No recording</span>`;
+    return `    <div class="archrow"><span class="archwhen">${r.when}</span><span class="archwho">${r.who}</span><span class="archnum">${r.line}</span>${tail}</div>`;
+  }).join('\n');
+  return `<section class="card archcard">
+  <p class="when">${a.when}</p>
+  <h2>${a.h2}</h2>
+  <p class="archintro">${a.intro}</p>
+  <div class="archlist">
+${rows}
+  </div>
+</section>`;
+};
+
 const staticCard = s => [
   '<section class="card">',
   `  <p class="when">${s.when}</p>`,
@@ -290,6 +311,7 @@ const robots = meta.noindex
 const cards = [
   introCard(data.intro),
   ...displayed.map(eventCard),
+  alsoRanCard(data.alsoRan),
   patternCard(data.pattern),
   archiveCard(data.archive, archived),
   ...data.static.map(staticCard),
@@ -419,6 +441,11 @@ for (const [region, floor] of Object.entries(guarantees)) {
   }
 }
 
+// 7y. Every strip row needs a date, or it cannot count toward the timeframe.
+for (const r of alsoRanRows) {
+  if (!r.date) fail.push(`strip row "${r.who}" has no date, so the headline timeframe would ignore it`);
+}
+
 // 7z. Chat quotes must be plausible: present only where chat still exists.
 for (const e of data.events) {
   if (!e.chat) continue;
@@ -451,7 +478,7 @@ const label = CHECK_ONLY ? 'check' : 'build';
 console.log(`[${label}] window ${iso(cutoff)} .. ${meta.asOf} (${meta.windowDays}d)`);
 const mix = Object.entries(displayed.reduce((a, e) => ((a[e.region] = (a[e.region] ?? 0) + 1), a), {}))
                   .map(([r, n]) => `${r} ${n}`).join(', ');
-console.log(`[${label}] ${displayed.length} shown (${mix}), ${archived.length} archived, ${cards.length} cards total`);
+console.log(`[${label}] ${displayed.length} full cards (${mix}) + ${alsoRanRows.length} in the strip, ${archived.length} archived, ${cards.length} screens`);
 if (rescued.size) {
   console.log(`[${label}] rescued from archive to hold a floor: ${[...rescued].join(', ')}`);
 }
