@@ -8,7 +8,7 @@
     "title": "Stationhead, {{spanPhrase}}",
     "baseUrl": "https://jpslater0.github.io/partner-guide/live/",
     "noindex": true,
-    "description": "What happened on Stationhead in {{spanPhrase}}. Artists and fans in the same room, playing the same song, at the same time. Every room can be played back.",
+    "description": "What happened on Stationhead in {{spanPhrase}}. Artists and fans listening to the same song at the same time. Every show can be played back.",
     "og": {
       "description": "115,672 streams in under two hours, run by the artist's own account. 110 of 1,052 listeners bought the record during the show. {{CountCap}} {{thing}} that happened, all of them replayable.",
       "twitterDescription": "115,672 streams in under two hours. 110 of 1,052 listeners bought the record during the show.",

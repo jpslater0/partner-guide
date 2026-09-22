@@ -64,7 +64,7 @@ ol li:before{content:counter(s);background:none;color:var(--purple);font-weight:
   .play .tri{border-left-color:#111}
 }
 
-/* Archive. Rooms that have rolled off the three week window.
+/* Archive: shows that have rolled out of the window.
    Compact rows, because this list only grows. */
 .card.archcard{justify-content:flex-start}
 .archintro{font-size:14px;color:rgba(252,252,252,.6);margin-bottom:18px;max-width:34em}

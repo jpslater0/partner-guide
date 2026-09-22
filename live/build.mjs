@@ -275,6 +275,17 @@ const warn = [];
 // 1. House rule: no em dashes in partner-facing copy.
 if (html.includes('—')) fail.push('em dash present in output');
 
+// 1b. "Room" is not a word the product uses. It crept back in through a meta
+//      tag once, which the visible-text check missed, so this scans everything.
+{
+  const rooms = html.match(/\brooms?\b/gi) ?? [];
+  if (rooms.length) {
+    const where = [...html.matchAll(/.{40}\brooms?\b.{40}/gi)].slice(0, 3).map(m => m[0].replace(/\s+/g, ' '));
+    fail.push(`"room" appears ${rooms.length} time(s); the product says show, channel or listening party. ` +
+              where.map(w => `\n         ...${w}...`).join(''));
+  }
+}
+
 // 2. Inline JS must parse.
 try { new Function(INLINE_JS); } catch (e) { fail.push('inline JS does not parse: ' + e.message); }
 
