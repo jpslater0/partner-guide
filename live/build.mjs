@@ -144,11 +144,54 @@ const eventCard = e => [
   '</section>',
 ].filter(Boolean).join('\n');
 
+// Emphasis column chart: the hosted day in the accent hue, every other day in
+// the de-emphasis gray. One series, so no legend; the label names it.
+const spikeChart = (c) => {
+  if (!c?.values?.length) return '';
+  const W = 560, H = 212, L = 46, R = 8, T = 16, B = 178;
+  const max = Math.max(...c.values);
+  const top = Math.ceil(max / 1000) * 1000 + 200;
+  const band = (W - L - R) / c.values.length;
+  const bw = Math.min(24, band - 4);
+  const y = v => B - (v / top) * (B - T);
+
+  const grid = [];
+  for (let g = 0; g <= top - 200; g += 1000) {
+    grid.push(`<line x1="${L}" x2="${W - R}" y1="${y(g).toFixed(1)}" y2="${y(g).toFixed(1)}" class="gl"/>`);
+    grid.push(`<text x="${L - 8}" y="${(y(g) + 4).toFixed(1)}" class="ax" text-anchor="end">${g.toLocaleString('en-US')}</text>`);
+  }
+
+  const bars = c.values.map((v, i) => {
+    const x = L + i * band + (band - bw) / 2, h = Math.max(1.5, B - y(v));
+    const r = Math.min(4, h / 2), hot = i === c.highlight;
+    // 4px rounded data-end, square at the baseline.
+    const d = `M${x.toFixed(1)} ${B} V${(B - h + r).toFixed(1)} Q${x.toFixed(1)} ${(B - h).toFixed(1)} ${(x + r).toFixed(1)} ${(B - h).toFixed(1)} H${(x + bw - r).toFixed(1)} Q${(x + bw).toFixed(1)} ${(B - h).toFixed(1)} ${(x + bw).toFixed(1)} ${(B - h + r).toFixed(1)} V${B} Z`;
+    return `<path d="${d}" class="${hot ? 'bar hot' : 'bar'}"><title>${c.days[i]} August: ${v.toLocaleString('en-US')} listeners</title></path>`;
+  });
+
+  const hi = c.highlight, hx = L + hi * band + band / 2;
+  const label = c.highlightLabel
+    ? `<text x="${hx.toFixed(1)}" y="${(y(c.values[hi]) - 8).toFixed(1)}" class="hotlbl" text-anchor="middle">${c.highlightLabel}</text>`
+    : '';
+  const ticks = [0, 7, 14].map(i =>
+    `<text x="${(L + i * band + band / 2).toFixed(1)}" y="${B + 18}" class="ax" text-anchor="middle">${c.days[i]} Aug</text>`).join('');
+
+  return `  <p class="chartlbl">${c.label}</p>
+  <svg class="spike" viewBox="0 0 ${W} ${H}" role="img" aria-label="${c.label}. ${c.caption}">
+    ${grid.join('')}
+    <line x1="${L}" x2="${W - R}" y1="${B}" y2="${B}" class="axline"/>
+    ${bars.join('')}
+    ${label}${ticks}
+  </svg>
+  <p class="note">${c.caption}</p>`;
+};
+
 const patternCard = p => [
   '<section class="card">',
   `  <p class="when">${p.when}</p>`,
   `  <h2>${p.h2}</h2>`,
   paras(p.body),
+  spikeChart(p.chart),
   figs(p.figs),
   p.note ? `  <p class="note">${sub(p.note)}</p>` : '',
   '</section>',

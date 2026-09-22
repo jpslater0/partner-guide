@@ -146,6 +146,22 @@ ol li:before{content:counter(s);background:none;color:var(--purple);font-weight:
 @media print{ .replaybox{height:auto;overflow:visible;border:1px solid #ddd;background:none}
   .replaybox:after{display:none} .replaybox .inner{position:static}
   .replaybox .m{background:none;border:1px solid #ddd;color:#111} .replayrate{color:#6a3fb5} }
+
+/* Spike chart. Emphasis form: the hosted day in accent, the rest recessive. */
+.chartlbl{font-size:11px;letter-spacing:.03em;text-transform:uppercase;color:rgba(252,252,252,.45);margin:0 0 6px}
+.spike{width:100%;max-width:34em;height:auto;display:block;margin:0 0 2px;overflow:visible}
+.spike .bar{fill:#6B6B6B}
+.spike .bar.hot{fill:var(--purple)}
+.spike .gl{stroke:rgba(252,252,252,.08);stroke-width:1}
+.spike .axline{stroke:rgba(252,252,252,.22);stroke-width:1}
+.spike .ax{fill:rgba(252,252,252,.5);font-size:12px;font-family:var(--font)}
+.spike .hotlbl{fill:var(--white);font-size:15px;font-weight:700;font-family:var(--font)}
+@media print{
+  .chartlbl{color:#666}
+  .spike .bar{fill:#bbb} .spike .bar.hot{fill:#6a3fb5}
+  .spike .gl{stroke:#eee} .spike .axline{stroke:#999}
+  .spike .ax{fill:#555} .spike .hotlbl{fill:#111}
+}
 </style>
 </head>
 <body>
@@ -371,6 +387,14 @@ ol li:before{content:counter(s);background:none;color:var(--purple);font-weight:
   <h2>The audience runs daily. The artist makes it spike.</h2>
   <p>Fans keep it warm every day. You bring the spike: across the shows we have measured, the day the artist joined ran between two and forty times an ordinary day on that channel.</p>
   <p>Use it where you already have a moment. A release, an anniversary, a tour announce.</p>
+  <p class="chartlbl">BLACKPINK's channel, listeners a day, 1 to 15 August</p>
+  <svg class="spike" viewBox="0 0 560 212" role="img" aria-label="BLACKPINK's channel, listeners a day, 1 to 15 August. The group hosted on the 8th. The week before averaged 146 a day. The week after averaged 804.">
+    <line x1="46" x2="552" y1="178.0" y2="178.0" class="gl"/><text x="38" y="182.0" class="ax" text-anchor="end">0</text><line x1="46" x2="552" y1="139.4" y2="139.4" class="gl"/><text x="38" y="143.4" class="ax" text-anchor="end">1,000</text><line x1="46" x2="552" y1="100.9" y2="100.9" class="gl"/><text x="38" y="104.9" class="ax" text-anchor="end">2,000</text><line x1="46" x2="552" y1="62.3" y2="62.3" class="gl"/><text x="38" y="66.3" class="ax" text-anchor="end">3,000</text><line x1="46" x2="552" y1="23.7" y2="23.7" class="gl"/><text x="38" y="27.7" class="ax" text-anchor="end">4,000</text>
+    <line x1="46" x2="552" y1="178" y2="178" class="axline"/>
+    <path d="M50.9 178 V175.4 Q50.9 172.8 53.5 172.8 H72.3 Q74.9 172.8 74.9 175.4 V178 Z" class="bar"><title>1 August: 134 listeners</title></path><path d="M84.6 178 V175.5 Q84.6 172.9 87.1 172.9 H106.1 Q108.6 172.9 108.6 175.5 V178 Z" class="bar"><title>2 August: 132 listeners</title></path><path d="M118.3 178 V175.5 Q118.3 173.0 120.8 173.0 H139.8 Q142.3 173.0 142.3 175.5 V178 Z" class="bar"><title>3 August: 129 listeners</title></path><path d="M152.1 178 V175.4 Q152.1 172.9 154.6 172.9 H173.5 Q176.1 172.9 176.1 175.4 V178 Z" class="bar"><title>4 August: 133 listeners</title></path><path d="M185.8 178 V175.2 Q185.8 172.5 188.6 172.5 H207.0 Q209.8 172.5 209.8 175.2 V178 Z" class="bar"><title>5 August: 143 listeners</title></path><path d="M219.5 178 V175.3 Q219.5 172.6 222.2 172.6 H240.8 Q243.5 172.6 243.5 175.3 V178 Z" class="bar"><title>6 August: 140 listeners</title></path><path d="M253.3 178 V173.7 Q253.3 169.7 257.3 169.7 H273.3 Q277.3 169.7 277.3 173.7 V178 Z" class="bar"><title>7 August: 214 listeners</title></path><path d="M287.0 178 V56.6 Q287.0 52.6 291.0 52.6 H307.0 Q311.0 52.6 311.0 56.6 V178 Z" class="bar hot"><title>8 August: 3,250 listeners</title></path><path d="M320.7 178 V145.7 Q320.7 141.7 324.7 141.7 H340.7 Q344.7 141.7 344.7 145.7 V178 Z" class="bar"><title>9 August: 942 listeners</title></path><path d="M354.5 178 V154.8 Q354.5 150.8 358.5 150.8 H374.5 Q378.5 150.8 378.5 154.8 V178 Z" class="bar"><title>10 August: 705 listeners</title></path><path d="M388.2 178 V152.4 Q388.2 148.4 392.2 148.4 H408.2 Q412.2 148.4 412.2 152.4 V178 Z" class="bar"><title>11 August: 767 listeners</title></path><path d="M421.9 178 V146.1 Q421.9 142.1 425.9 142.1 H441.9 Q445.9 142.1 445.9 146.1 V178 Z" class="bar"><title>12 August: 932 listeners</title></path><path d="M455.7 178 V153.5 Q455.7 149.5 459.7 149.5 H475.7 Q479.7 149.5 479.7 153.5 V178 Z" class="bar"><title>13 August: 739 listeners</title></path><path d="M489.4 178 V153.1 Q489.4 149.1 493.4 149.1 H509.4 Q513.4 149.1 513.4 153.1 V178 Z" class="bar"><title>14 August: 748 listeners</title></path><path d="M523.1 178 V151.3 Q523.1 147.3 527.1 147.3 H543.1 Q547.1 147.3 547.1 151.3 V178 Z" class="bar"><title>15 August: 796 listeners</title></path>
+    <text x="299.0" y="44.6" class="hotlbl" text-anchor="middle">3,250</text><text x="62.9" y="196" class="ax" text-anchor="middle">1 Aug</text><text x="299.0" y="196" class="ax" text-anchor="middle">8 Aug</text><text x="535.1" y="196" class="ax" text-anchor="middle">15 Aug</text>
+  </svg>
+  <p class="note">The group hosted on the 8th. The week before averaged 146 a day. The week after averaged 804.</p>
   <div class="figs">
     <div class="fig"><span class="n">13.7B</span><span class="l">streams all time</span></div>
     <div class="fig"><span class="n">2M+</span><span class="l">people who have streamed</span></div>

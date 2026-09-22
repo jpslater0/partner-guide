@@ -109,3 +109,19 @@ ol li:before{content:counter(s);background:none;color:var(--purple);font-weight:
 @media print{ .replaybox{height:auto;overflow:visible;border:1px solid #ddd;background:none}
   .replaybox:after{display:none} .replaybox .inner{position:static}
   .replaybox .m{background:none;border:1px solid #ddd;color:#111} .replayrate{color:#6a3fb5} }
+
+/* Spike chart. Emphasis form: the hosted day in accent, the rest recessive. */
+.chartlbl{font-size:11px;letter-spacing:.03em;text-transform:uppercase;color:rgba(252,252,252,.45);margin:0 0 6px}
+.spike{width:100%;max-width:34em;height:auto;display:block;margin:0 0 2px;overflow:visible}
+.spike .bar{fill:#6B6B6B}
+.spike .bar.hot{fill:var(--purple)}
+.spike .gl{stroke:rgba(252,252,252,.08);stroke-width:1}
+.spike .axline{stroke:rgba(252,252,252,.22);stroke-width:1}
+.spike .ax{fill:rgba(252,252,252,.5);font-size:12px;font-family:var(--font)}
+.spike .hotlbl{fill:var(--white);font-size:15px;font-weight:700;font-family:var(--font)}
+@media print{
+  .chartlbl{color:#666}
+  .spike .bar{fill:#bbb} .spike .bar.hot{fill:#6a3fb5}
+  .spike .gl{stroke:#eee} .spike .axline{stroke:#999}
+  .spike .ax{fill:#555} .spike .hotlbl{fill:#111}
+}
