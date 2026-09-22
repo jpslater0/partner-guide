@@ -292,6 +292,42 @@
       "noRecordingReason": "internal event report, no recording"
     },
     {
+      "id": "olivia-sep",
+      "date": "2026-09-08",
+      "when": "8 September",
+      "who": "Olivia Rodrigo",
+      "region": "western",
+      "figuresAsOf": "2026-09-22",
+      "hero": "3 years",
+      "herolbl": "after release, and it still filled a Tuesday night",
+      "figs": [
+        {
+          "n": "3,262",
+          "l": "listeners"
+        },
+        {
+          "n": "23",
+          "l": "songs"
+        },
+        {
+          "n": "7,850",
+          "l": "messages"
+        }
+      ],
+      "body": [
+        "An album three years old, on an ordinary Tuesday. Catalogue does not go quiet here."
+      ],
+      "broadcastId": 3550154,
+      "playLabel": "Play it back",
+      "chat": [
+        "2+2=5",
+        "LACY OH LACY",
+        "MAKING THE BED",
+        "SO AMERICAN",
+        "Love is never logical"
+      ]
+    },
+    {
       "id": "sabrina-aug",
       "date": "2026-08-29",
       "when": "29 August",
@@ -986,261 +1022,6 @@
       }
     },
     {
-      "id": "sakanaction-sep",
-      "date": "2026-09-17",
-      "when": "17 September",
-      "who": "Sakanaction",
-      "region": "jpop",
-      "figuresAsOf": "2026-09-22",
-      "hero": "5,174",
-      "herolbl": "came for a show the label hosted itself",
-      "figs": [
-        {
-          "n": "2h 07m",
-          "l": "on air"
-        },
-        {
-          "n": "11,118",
-          "l": "messages"
-        },
-        {
-          "n": "25,280",
-          "l": "streams"
-        }
-      ],
-      "body": [
-        "Label staff and a guest, on air for two hours. Five thousand people stayed for it."
-      ],
-      "broadcastId": 3573372,
-      "playLabel": "Play it back",
-      "replay": {
-        "label": "The guest arrives",
-        "messages": [
-          [
-            0,
-            "きたきた〜"
-          ],
-          [
-            50,
-            "wwwww"
-          ],
-          [
-            100,
-            "やっぱりwww"
-          ],
-          [
-            150,
-            "はまーー！"
-          ],
-          [
-            200,
-            "ｷﾀ━(ﾟ∀ﾟ)━!"
-          ],
-          [
-            250,
-            "だれ？"
-          ],
-          [
-            300,
-            "はまだー"
-          ],
-          [
-            350,
-            "こんばんは"
-          ],
-          [
-            400,
-            "ハマダー！"
-          ],
-          [
-            450,
-            "キターーー"
-          ],
-          [
-            500,
-            "ハマダー"
-          ],
-          [
-            550,
-            "お？！"
-          ],
-          [
-            600,
-            "あらー！"
-          ],
-          [
-            650,
-            "ズコー"
-          ],
-          [
-            700,
-            "笑笑"
-          ],
-          [
-            750,
-            "きたー！"
-          ],
-          [
-            800,
-            "きたあ"
-          ],
-          [
-            850,
-            "ハマダー！！"
-          ],
-          [
-            900,
-            "ハマダさーん！！！！！！"
-          ],
-          [
-            950,
-            "👏👏👏👏👏"
-          ],
-          [
-            1000,
-            "ハマダーーー！"
-          ],
-          [
-            1058,
-            "きたわー！"
-          ],
-          [
-            1117,
-            "お！"
-          ],
-          [
-            1176,
-            "きたきたきた👏✨👏✨"
-          ],
-          [
-            1235,
-            "きたーー"
-          ],
-          [
-            1294,
-            "でーたーーーー！！！！！"
-          ],
-          [
-            1352,
-            "ハマダ"
-          ],
-          [
-            1411,
-            "あらら"
-          ],
-          [
-            1470,
-            "きたーーーーー"
-          ],
-          [
-            1529,
-            "えーーー‼️"
-          ],
-          [
-            1588,
-            "ハマちーーーん"
-          ],
-          [
-            1647,
-            "wwwwwwwww"
-          ],
-          [
-            1705,
-            "ハマダくーん"
-          ],
-          [
-            1764,
-            "きたー"
-          ],
-          [
-            1823,
-            "おおー笑笑笑"
-          ],
-          [
-            1882,
-            "ハマダさーん！"
-          ],
-          [
-            1941,
-            "ハマダさんだ！"
-          ],
-          [
-            2000,
-            "えーーーーー"
-          ],
-          [
-            2083,
-            "きゃーー❣️"
-          ],
-          [
-            2166,
-            "ハマダー！！"
-          ],
-          [
-            2250,
-            "すごい！！"
-          ],
-          [
-            2333,
-            "ひゅう"
-          ],
-          [
-            2416,
-            "大物ミュージシャン登場"
-          ],
-          [
-            2500,
-            "大物ｷﾀ━(ﾟ∀ﾟ)━!"
-          ],
-          [
-            2583,
-            "きゃー❤️"
-          ],
-          [
-            2666,
-            "大物きたー！"
-          ],
-          [
-            2750,
-            "おおーー！"
-          ],
-          [
-            2833,
-            "キタキタw"
-          ],
-          [
-            2916,
-            "ええええw"
-          ],
-          [
-            3000,
-            "こんばんはー"
-          ],
-          [
-            3166,
-            "普通にきたーーーーーーーーwww"
-          ],
-          [
-            3333,
-            "ハマちん😂"
-          ],
-          [
-            3500,
-            "ハマちゃん😆😆😆"
-          ],
-          [
-            3666,
-            "大文字ゲスト🤭"
-          ],
-          [
-            3833,
-            "来たー！"
-          ]
-        ],
-        "secondResolution": true
-      }
-    },
-    {
       "id": "ini-sep",
       "date": "2026-09-08",
       "when": "5 to 8 September",
@@ -1559,6 +1340,20 @@
         "date": "2026-07-24"
       },
       {
+        "who": "BLACKPINK",
+        "when": "8 August",
+        "line": "four hours of catalogue for a tenth anniversary, hosted by the group",
+        "broadcastId": 3456543,
+        "date": "2026-08-08"
+      },
+      {
+        "who": "ENHYPEN",
+        "when": "21 to 26 August",
+        "line": "811,284 streams in six days, with nothing promoted",
+        "broadcastId": 3499016,
+        "date": "2026-08-26"
+      },
+      {
         "who": "MARK",
         "when": "10 September",
         "line": "17,153 listeners on release day, the biggest show in two months",
@@ -1573,25 +1368,11 @@
         "date": "2026-09-11"
       },
       {
-        "who": "BLACKPINK",
-        "when": "8 August",
-        "line": "four hours of catalogue for a tenth anniversary, hosted by the group",
-        "broadcastId": 3456543,
-        "date": "2026-08-08"
-      },
-      {
-        "who": "Olivia Rodrigo",
-        "when": "8 September",
-        "line": "321 messages a minute, three years after release",
-        "broadcastId": 3550154,
-        "date": "2026-09-08"
-      },
-      {
-        "who": "ENHYPEN",
-        "when": "21 to 26 August",
-        "line": "811,284 streams in six days, with nothing promoted",
-        "broadcastId": 3499016,
-        "date": "2026-08-26"
+        "who": "Sakanaction",
+        "when": "17 September",
+        "date": "2026-09-17",
+        "line": "5,174 came for a show the label hosted itself, with no band members on",
+        "broadcastId": 3573372
       }
     ]
   }
