@@ -189,7 +189,7 @@
       ],
       "body": [
         "Online retail converts in low single digits. This converted at ten percent.",
-        "A fan ran the show, not the label."
+        "No campaign behind it. The fans hosting did the selling."
       ],
       "broadcastId": 3545032,
       "playLabel": "Play it back"
@@ -319,7 +319,7 @@
         }
       ],
       "body": [
-        "Billed as label staff and a guest. Five thousand people stayed two hours."
+        "Billed as label staff and a guest, no band members. Five thousand people stayed two hours anyway."
       ],
       "broadcastId": 3573372,
       "playLabel": "Play it back"
@@ -332,7 +332,7 @@
       "region": "western",
       "figuresAsOf": "2026-09-10",
       "hero": "3m 28s",
-      "herolbl": "on the mic, on a fan's show",
+      "herolbl": "on the mic, and the show ran for hours around it",
       "figs": [
         {
           "n": "11",
@@ -344,7 +344,7 @@
         }
       ],
       "body": [
-        "She walked in, spoke, then stayed in the chat."
+        "Three and a half minutes on the mic, then she stayed in the chat. The fans hosting ran the rest of it."
       ],
       "broadcastId": null,
       "noRecordingReason": "internal event report, no recording"
@@ -373,7 +373,7 @@
         }
       ],
       "body": [
-        "No release, no campaign, no spend. Fans opened all five."
+        "Nothing released, nothing promoted, nothing spent. Fans opened five shows in six days anyway."
       ],
       "broadcastId": 3499016,
       "playLabel": "Play it back"
@@ -410,10 +410,10 @@
   ],
   "pattern": {
     "when": "The pattern",
-    "h2": "Most of this was not scheduled by anyone.",
+    "h2": "The hard part is already done.",
     "body": [
-      "A three year old album. A tenth anniversary. A label talk with no band on it. Eight songs played twelve times each.",
-      "Fans open most of these shows. When the artist turns up, they walk into one that is already full."
+      "Fans host these shows most days, release or no release. They stay for hours, carry the chat, and stream on their own paid accounts.",
+      "What the artist adds is small. Paris Paloma spoke for three and a half minutes. INI took the mic four nights running and moved 370,013 plays in a day. You are not building an audience here, you are turning up to one."
     ],
     "figs": [
       {
@@ -433,7 +433,7 @@
         "l": "countries"
       }
     ],
-    "note": "Streams are plays of at least thirty seconds, counted during the show, queried on {{figureDates}}. Platform totals are as of 10 September 2026. Chat lines are real messages from the show, shown in the order fans sent them most. Shows older than thirty days have no chat left to quote."
+    "note": "Streams are plays of at least thirty seconds, counted during the show. Figures queried {{figureDates}}, platform totals as of 10 September 2026. Chat lines are real messages from the show, most repeated first."
   },
   "archive": {
     "when": "Before that",
