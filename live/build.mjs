@@ -94,6 +94,17 @@ const sub = s => Object.entries(TOKENS).reduce((acc, [k, v]) => acc.replaceAll(k
 /* ---------- fragments ---------- */
 const PLAY_BASE = 'https://app.stationhead.com/s/';
 const esc = t => String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+const replayBox = (e) => {
+  const r = e.replay; if (!r?.messages?.length) return '';
+  const secs = r.messages[r.messages.length - 1][0] / 1000;
+  const rate = Math.round(r.messages.length / secs);
+  // JSON rides in a script tag; < is escaped so it can never close a tag early.
+  const data = JSON.stringify(r.messages).replace(/</g, '\\u003c');
+  return `  <p class="replayrate">${r.label} &middot; ${rate} messages a second</p>
+  <div class="replaybox" data-replay><div class="inner"></div>
+    <script type="application/json">${data}</script>
+  </div>`;
+};
 const chatStrip = list => !list?.length ? '' : `  <p class="chatlbl">From the chat</p>
   <div class="chat">
 ${list.map(m => `    <span class="m">${esc(m)}</span>`).join('\n')}
@@ -126,6 +137,7 @@ const eventCard = e => [
   paras(e.body),
   e.quote ? `  <p class="quote">${e.quote}</p>` : '',
   chatStrip(e.chat),
+  replayBox(e),
   e.broadcastId
     ? `  <a class="play" href="${PLAY_BASE}${e.broadcastId}"><span class="tri"></span>${e.playLabel}</a>`
     : '',
@@ -182,6 +194,38 @@ const INLINE_JS = `
     vid.addEventListener('loadeddata', function(){ slot.classList.add('ready'); });
     vid.addEventListener('error', function(){ slot.classList.remove('ready'); }, true);
   }
+
+  // Replay the chat at the speed it happened, only while the card is on screen.
+  var slow = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  [].forEach.call(document.querySelectorAll('[data-replay]'), function(box){
+    var tag = box.querySelector('script'), inner = box.querySelector('.inner');
+    if (!tag || !inner) return;
+    var msgs; try { msgs = JSON.parse(tag.textContent); } catch (e) { return; }
+    if (!msgs.length) return;
+
+    function draw(n){
+      inner.innerHTML = '';
+      for (var i = Math.max(0, n - 14); i < n; i++){
+        var s = document.createElement('span');
+        s.className = 'm'; s.textContent = msgs[i][1];
+        inner.appendChild(s);
+      }
+    }
+    if (slow){ draw(Math.min(msgs.length, 8)); return; }
+
+    var timers = [], running = false;
+    function stop(){ running = false; timers.forEach(clearTimeout); timers = []; }
+    function run(){
+      if (running) return;
+      running = true; inner.innerHTML = '';
+      msgs.forEach(function(m, i){ timers.push(setTimeout(function(){ draw(i + 1); }, m[0])); });
+      timers.push(setTimeout(function(){ stop(); run(); }, msgs[msgs.length - 1][0] + 1600));
+    }
+    if (!window.IntersectionObserver){ draw(Math.min(msgs.length, 14)); return; }
+    new IntersectionObserver(function(es){
+      es.forEach(function(en){ en.isIntersecting ? run() : stop(); });
+    }, { threshold: 0.4 }).observe(box);
+  });
 
   function onScroll(){
     var max = feed.scrollHeight - feed.clientHeight;
