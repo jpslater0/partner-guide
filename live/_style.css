@@ -81,3 +81,14 @@ ol li:before{content:counter(s);background:none;color:var(--purple);font-weight:
   .archplay{color:#111} .archintro{color:#333}
   .archrow{border-top:1px solid #ddd}
 }
+
+/* Real chat pulled from the show. Shown, not described. */
+.chatlbl{font-size:11px;letter-spacing:.03em;text-transform:uppercase;color:rgba(252,252,252,.42);margin:2px 0 8px}
+.chat{display:flex;flex-direction:column;gap:5px;margin:0 0 18px;max-width:26em}
+.chat .m{background:rgba(252,252,252,.07);border:1px solid rgba(252,252,252,.06);border-radius:13px;
+         padding:6px 13px;font-size:14px;line-height:1.35;color:rgba(252,252,252,.9);align-self:flex-start;
+         max-width:100%;word-break:break-word}
+@media print{
+  .chatlbl{color:#666}
+  .chat .m{background:none;border:1px solid #ddd;color:#111}
+}

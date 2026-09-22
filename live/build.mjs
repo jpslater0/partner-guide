@@ -58,9 +58,13 @@ const countWord = WORDS[displayed.length] ?? String(displayed.length);
 const oldestShown = displayed.reduce((m, e) => (e.date < m ? e.date : m), meta.asOf);
 const spanDays  = Math.round((asOf - new Date(oldestShown + 'T00:00:00Z')) / 86400000);
 const spanWeeks = Math.max(1, Math.ceil(spanDays / 7));
-const spanWord  = (WORDS[spanWeeks] ?? String(spanWeeks)).toLowerCase();
-const spanPhrase = spanWeeks === 1 ? 'the last week' : `the last ${spanWord} weeks`;
-const SpanPhrase = spanWeeks === 1 ? 'Last week'     : `Last ${spanWord} weeks`;
+// Past about two months, weeks stop reading naturally, so switch to months.
+const spanMonths = Math.max(1, Math.round(spanDays / 30.44));
+const spanUnit = spanWeeks > 8 ? 'month' : 'week';
+const spanN    = spanWeeks > 8 ? spanMonths : spanWeeks;
+const spanNWord = (WORDS[spanN] ?? String(spanN)).toLowerCase();
+const spanPhrase = spanN === 1 ? `the last ${spanUnit}` : `the last ${spanNWord} ${spanUnit}s`;
+const SpanPhrase = spanN === 1 ? `Last ${spanUnit}`     : `Last ${spanNWord} ${spanUnit}s`;
 
 // Long-form dates for the methodology note, so it cannot drift from the window.
 const MONTHS = ['January','February','March','April','May','June',
@@ -89,6 +93,11 @@ const sub = s => Object.entries(TOKENS).reduce((acc, [k, v]) => acc.replaceAll(k
 
 /* ---------- fragments ---------- */
 const PLAY_BASE = 'https://app.stationhead.com/s/';
+const esc = t => String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+const chatStrip = list => !list?.length ? '' : `  <p class="chatlbl">From the chat</p>
+  <div class="chat">
+${list.map(m => `    <span class="m">${esc(m)}</span>`).join('\n')}
+  </div>`;
 const figs = list => list.length ? `  <div class="figs">
 ${list.map(f => `    <div class="fig"><span class="n">${f.n}</span><span class="l">${f.l}</span></div>`).join('\n')}
   </div>` : '';
@@ -116,6 +125,7 @@ const eventCard = e => [
   figs(e.figs),
   paras(e.body),
   e.quote ? `  <p class="quote">${e.quote}</p>` : '',
+  chatStrip(e.chat),
   e.broadcastId
     ? `  <a class="play" href="${PLAY_BASE}${e.broadcastId}"><span class="tri"></span>${e.playLabel}</a>`
     : '',
@@ -308,6 +318,19 @@ for (const [region, floor] of Object.entries(guarantees)) {
   if (shown < floor) {
     fail.push(`only ${shown} ${region} card(s) on the page, floor is ${floor}. ` +
               `Add one or lower meta.guarantees.${region}.`);
+  }
+}
+
+// 7z. Chat quotes must be plausible: present only where chat still exists.
+for (const e of data.events) {
+  if (!e.chat) continue;
+  if (!Array.isArray(e.chat) || e.chat.some(m => typeof m !== 'string' || !m.trim())) {
+    fail.push(`${e.id}: chat must be a list of non-empty strings`);
+  }
+  const ageDays = Math.round((asOf - new Date(e.date + 'T00:00:00Z')) / 86400000);
+  if (ageDays > 30) {
+    fail.push(`${e.id}: quotes chat from a show ${ageDays} days old, but chat is only kept 30 days. ` +
+              `Either the quotes are invented or they were captured earlier and need a note.`);
   }
 }
 
