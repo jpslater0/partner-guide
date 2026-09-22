@@ -272,3 +272,25 @@ WHERE station_id = :station_id
 --                              event report, and that show has no recording.
 --                              Leave frozen.
 -- ============================================================================
+
+
+-- ---------------------------------------------------------------------------
+-- 13. THE SPIKE: DAILY LISTENERS ON A CHANNEL  (db 3)  ** slow, ~2 minutes **
+-- The number the pitch rests on. Compare the days an artist hosted against
+-- the days the channel ran on its own. Do NOT describe this as the artist
+-- mattering less; it is the opposite, it sizes what they add.
+--
+-- Verified 2026-09-22 on INI's channel, 25 Aug to 21 Sept: about 1,600
+-- listeners a day across the 23 days with no artist on, against 2,776 across
+-- the four nights the group hosted. 1.7x.
+--
+-- Scanning a channel's daily series is expensive. Run it per channel, over a
+-- bounded window, and never inside a page build.
+-- ---------------------------------------------------------------------------
+SELECT DATE(event_time) AS day,
+       SUM(CASE WHEN duration >= 30000 THEN 1 ELSE 0 END) AS streams,
+       COUNT(DISTINCT account_id) AS listeners
+FROM production.listener_track_play_logs
+WHERE channel_id = :channel_id
+  AND event_time >= :start AND event_time < :end
+GROUP BY DATE(event_time) ORDER BY day;

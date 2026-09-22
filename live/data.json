@@ -409,11 +409,11 @@
     }
   ],
   "pattern": {
-    "when": "The pattern",
-    "h2": "The hard part is already done.",
+    "when": "What it does",
+    "h2": "The audience runs daily. The artist makes it spike.",
     "body": [
-      "Fans host these shows most days, release or no release. They stay for hours, carry the chat, and stream on their own paid accounts.",
-      "What the artist adds is small. Paris Paloma spoke for three and a half minutes. INI took the mic four nights running and moved 370,013 plays in a day. You are not building an audience here, you are turning up to one."
+      "INI's channel runs at about 1,600 listeners a day on its own. The four nights the group hosted, it ran at 2,776. Same fans, same channel, 1.7 times the people.",
+      "Fans keep it warm every day. You bring the spike, on a release, an anniversary or a tour announce, whenever you already have something to say."
     ],
     "figs": [
       {
@@ -433,7 +433,7 @@
         "l": "countries"
       }
     ],
-    "note": "Streams are plays of at least thirty seconds, counted during the show. Figures queried {{figureDates}}, platform totals as of 10 September 2026. Chat lines are real messages from the show, most repeated first."
+    "note": "Streams are plays of at least thirty seconds, counted during the show. Figures queried {{figureDates}}, platform totals as of 10 September 2026. The INI comparison is daily listeners on that channel, 25 August to 21 September 2026, hosted nights against the twenty three days without the group on. Chat lines are real messages from the show, most repeated first."
   },
   "archive": {
     "when": "Before that",
