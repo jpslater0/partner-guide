@@ -138,7 +138,7 @@ const patternCard = p => [
   `  <h2>${p.h2}</h2>`,
   paras(p.body),
   figs(p.figs),
-  `  <p class="note">${sub(p.note)}</p>`,
+  p.note ? `  <p class="note">${sub(p.note)}</p>` : '',
   '</section>',
 ].filter(Boolean).join('\n');
 

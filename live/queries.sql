@@ -280,9 +280,21 @@ WHERE station_id = :station_id
 -- the days the channel ran on its own. Do NOT describe this as the artist
 -- mattering less; it is the opposite, it sizes what they add.
 --
--- Verified 2026-09-22 on INI's channel, 25 Aug to 21 Sept: about 1,600
--- listeners a day across the 23 days with no artist on, against 2,776 across
--- the four nights the group hosted. 1.7x.
+-- Verified 2026-09-22 across four channels, baseline day against the day the
+-- artist hosted:
+--   MARK       ch 142   ~175 -> 7,407    42x
+--   BLACKPINK  ch 5     ~135 -> 3,250    24x
+--   Stray Kids ch 16  ~3,200 -> 16,385    5x
+--   INI        ch 306 ~1,600 -> 2,776   1.7x
+-- 1.7x is the FLOOR, on a channel already running at 1,600 a day. Quieter
+-- channels spike far harder. The page claims "1.7 times or more", which every
+-- case measured clears.
+--
+-- CAUTION on resolving a channel from a station: MAX(channel_id) is wrong when
+-- a station has sat under more than one channel. It gave channel 220 for BTS,
+-- whose daily series shows no bump at all on the day of their own listening
+-- party, so that reading was discarded. Resolve through channels_stations in
+-- db 2 and check the series actually moves before trusting it.
 --
 -- Scanning a channel's daily series is expensive. Run it per channel, over a
 -- bounded window, and never inside a page build.
