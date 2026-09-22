@@ -10,7 +10,7 @@
     "noindex": true,
     "description": "What happened on Stationhead in {{spanPhrase}}. Artists and fans listening to the same song at the same time. Every show can be played back.",
     "og": {
-      "description": "115,672 streams in under two hours, run by the artist's own account. 110 of 1,052 listeners bought the record during the show. {{CountCap}} {{thing}} that happened, all of them replayable.",
+      "description": "115,672 streams in under two hours, run by the artist's own account. 110 of 1,052 listeners bought the record during the show. {{CountCap}} {{show}}, all of them replayable.",
       "twitterDescription": "115,672 streams in under two hours. 110 of 1,052 listeners bought the record during the show.",
       "imageAlt": "Stationhead. What happened in {{spanPhrase}}.",
       "image": "og-image.png"
@@ -30,45 +30,38 @@
     "video": "stationhead-sizzle.mp4",
     "lead": "Artists and fans listening to the same song at the same time. Every play runs through the listener's own paid account, so every play is a real stream.",
     "body": [
-      "{{CountCap}} {{thing}} from {{spanPhrase}}. All of them can be played back."
+      "{{CountCap}} {{show}} from {{spanPhrase}}. Every one of them can be played back."
     ]
   },
   "events": [
     {
-      "id": "mark-sep",
-      "date": "2026-09-10",
-      "when": "10 September",
-      "who": "MARK",
+      "id": "bts-jul",
+      "date": "2026-07-24",
+      "when": "24 July",
+      "who": "BTS",
       "region": "kpop",
       "figuresAsOf": "2026-09-22",
-      "hero": "17,153",
-      "herolbl": "listeners on release day, the biggest show in two months",
+      "hero": "115,672",
+      "herolbl": "streams in under two hours",
       "figs": [
         {
-          "n": "97,678",
-          "l": "streams"
+          "n": "42",
+          "l": "songs"
         },
         {
-          "n": "8,621",
-          "l": "messages"
+          "n": "5,063",
+          "l": "streaming accounts"
         },
         {
-          "n": "3h 42m",
-          "l": "on air"
+          "n": "9,173",
+          "l": "listeners"
         }
       ],
       "body": [
-        "Three shows opened for the release. The chat ran in Thai, Indonesian and English."
+        "BTS ran the listening party for NORMAL from their own account. Forty two songs, and every play came off a fan's own paid subscription."
       ],
-      "broadcastId": 3554147,
-      "playLabel": "Play it back",
-      "chat": [
-        "My friend ❤️",
-        "🥹🥹🥹🥹",
-        "เห้ย",
-        "1999",
-        "😭💚💚💚💚"
-      ]
+      "broadcastId": 3422562,
+      "playLabel": "Play it back"
     },
     {
       "id": "straykids-aug",
@@ -94,39 +87,46 @@
         }
       ],
       "body": [
-        "Eight songs, played over and over, from the group's own account."
+        "Eight songs, forty seven minutes, and each person played them twelve times over. The group hosted it."
       ],
       "broadcastId": 3456596,
       "playLabel": "Play it back"
     },
     {
-      "id": "bts-jul",
-      "date": "2026-07-24",
-      "when": "24 July",
-      "who": "BTS",
+      "id": "mark-sep",
+      "date": "2026-09-10",
+      "when": "10 September",
+      "who": "MARK",
       "region": "kpop",
       "figuresAsOf": "2026-09-22",
-      "hero": "115,672",
-      "herolbl": "streams in under two hours",
+      "hero": "17,153",
+      "herolbl": "listeners on release day, the biggest show in two months",
       "figs": [
         {
-          "n": "42",
-          "l": "songs"
+          "n": "97,678",
+          "l": "streams"
         },
         {
-          "n": "5,063",
-          "l": "streaming accounts"
+          "n": "8,621",
+          "l": "messages"
         },
         {
-          "n": "9,173",
-          "l": "listeners"
+          "n": "3h 42m",
+          "l": "on air"
         }
       ],
       "body": [
-        "The official account ran the listening party for NORMAL."
+        "Three shows ran for the release. The chat moved between Thai, Indonesian and English for nearly four hours."
       ],
-      "broadcastId": 3422562,
-      "playLabel": "Play it back"
+      "broadcastId": 3554147,
+      "playLabel": "Play it back",
+      "chat": [
+        "My friend ❤️",
+        "🥹🥹🥹🥹",
+        "เห้ย",
+        "1999",
+        "😭💚💚💚💚"
+      ]
     },
     {
       "id": "milk-sep",
@@ -152,7 +152,7 @@
         }
       ],
       "body": [
-        "Release day, announced by the group. Thirteen songs in under an hour."
+        "The group announced it, played thirteen songs, and were off in under an hour."
       ],
       "broadcastId": 3558013,
       "playLabel": "Play it back",
@@ -188,11 +188,35 @@
         }
       ],
       "body": [
-        "Online retail converts in low single digits. This converted at ten percent.",
-        "No campaign behind it. The fans hosting did the selling."
+        "Online retail converts in low single digits. This show converted at ten percent, with no campaign running behind it."
       ],
       "broadcastId": 3545032,
       "playLabel": "Play it back"
+    },
+    {
+      "id": "paris-sep",
+      "date": "2026-09-04",
+      "when": "4 September",
+      "who": "Paris Paloma",
+      "region": "western",
+      "figuresAsOf": "2026-09-10",
+      "hero": "3m 28s",
+      "herolbl": "on the mic, and the show ran for hours around it",
+      "figs": [
+        {
+          "n": "11",
+          "l": "messages she sent herself"
+        },
+        {
+          "n": "2,011",
+          "l": "messages in the show"
+        }
+      ],
+      "body": [
+        "She spoke for three and a half minutes, then stayed in the chat. That was the whole ask, and the show carried on for hours."
+      ],
+      "broadcastId": null,
+      "noRecordingReason": "internal event report, no recording"
     },
     {
       "id": "olivia-sep",
@@ -218,7 +242,7 @@
         }
       ],
       "body": [
-        "A Tuesday night, for a three year old album."
+        "A Tuesday night, for an album three years old. Catalogue still pulls a full show here."
       ],
       "broadcastId": 3550154,
       "playLabel": "Play it back",
@@ -238,7 +262,7 @@
       "region": "kpop",
       "figuresAsOf": "2026-09-22",
       "hero": "4 hours",
-      "herolbl": "for a tenth anniversary, hosted by the group",
+      "herolbl": "on a tenth anniversary, hosted by the group",
       "figs": [
         {
           "n": "21,477",
@@ -254,7 +278,7 @@
         }
       ],
       "body": [
-        "Ten years of catalogue, played end to end from the official account."
+        "Ten years of catalogue, played end to end by the group themselves."
       ],
       "broadcastId": 3456543,
       "playLabel": "Play it back"
@@ -283,7 +307,7 @@
         }
       ],
       "body": [
-        "An album turning one year old. Nothing released, nothing announced."
+        "An album's first birthday. Nearly ten thousand people came back for a record they already owned."
       ],
       "broadcastId": 3523095,
       "playLabel": "Play it back",
@@ -303,7 +327,7 @@
       "region": "jpop",
       "figuresAsOf": "2026-09-22",
       "hero": "5,174",
-      "herolbl": "came for a label talk, with no band members on",
+      "herolbl": "came for a show the label hosted itself",
       "figs": [
         {
           "n": "2h 07m",
@@ -319,35 +343,10 @@
         }
       ],
       "body": [
-        "Billed as label staff and a guest, no band members. Five thousand people stayed two hours anyway."
+        "Label staff and a guest, on air for two hours. Five thousand people stayed for it."
       ],
       "broadcastId": 3573372,
       "playLabel": "Play it back"
-    },
-    {
-      "id": "paris-sep",
-      "date": "2026-09-04",
-      "when": "4 September",
-      "who": "Paris Paloma",
-      "region": "western",
-      "figuresAsOf": "2026-09-10",
-      "hero": "3m 28s",
-      "herolbl": "on the mic, and the show ran for hours around it",
-      "figs": [
-        {
-          "n": "11",
-          "l": "messages she sent herself"
-        },
-        {
-          "n": "2,011",
-          "l": "messages in the show"
-        }
-      ],
-      "body": [
-        "Three and a half minutes on the mic, then she stayed in the chat. The fans hosting ran the rest of it."
-      ],
-      "broadcastId": null,
-      "noRecordingReason": "internal event report, no recording"
     },
     {
       "id": "enhypen-aug",
@@ -373,7 +372,7 @@
         }
       ],
       "body": [
-        "Nothing released, nothing promoted, nothing spent. Fans opened five shows in six days anyway."
+        "Five shows in six days, opened by fans, with no release to push. This is the baseline an artist walks into."
       ],
       "broadcastId": 3499016,
       "playLabel": "Play it back"
@@ -402,7 +401,7 @@
         }
       ],
       "body": [
-        "The group hosted four nights running and took the mic every night."
+        "Four nights running, on the mic every night. The channel ran at 1.7 times its usual while they were on."
       ],
       "broadcastId": 3546799,
       "playLabel": "Play it back"
@@ -443,7 +442,7 @@
   },
   "static": [
     {
-      "when": "Doing one",
+      "when": "How to run one",
       "h2": "It takes a date and an artist handle.",
       "ol": [
         "Confirm the channel. If fans built one already, we connect it rather than starting again.",
@@ -463,7 +462,7 @@
         "<strong>Voice note.</strong> Thirty seconds recorded on a phone, for when a live date will not work. Two days.",
         "<strong>Fan Channel.</strong> The permanent home fans join once and keep between releases. A few days."
       ],
-      "note": "To start we need the artist handle, a date, and anything you want to sell."
+      "note": "To start we need the artist handle, a date, and anything you want to sell. We will build the show around it."
     }
   ]
 }

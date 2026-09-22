@@ -75,7 +75,7 @@ const longDate = (d, withYear) =>
 const TOKENS = {
   '{{CountCap}}': countWord,
   '{{count}}': countWord.toLowerCase(),
-  '{{thing}}': displayed.length === 1 ? 'thing' : 'things',
+  '{{show}}': displayed.length === 1 ? 'show' : 'shows',
   '{{asOfLong}}': longDate(asOf, true),
   '{{asOfShort}}': longDate(asOf, false),
   '{{windowStartShort}}': longDate(cutoff, false),
@@ -369,7 +369,7 @@ if (rescued.size) {
   console.log(`[${label}] rescued from archive to hold a floor: ${[...rescued].join(', ')}`);
 }
 console.log(`[${label}] headline timeframe reads "${spanPhrase}" (oldest card ${oldestShown})`);
-console.log(`[${label}] social copy reads "${countWord} ${TOKENS['{{thing}}']}"`);
+console.log(`[${label}] social copy reads "${countWord} ${TOKENS['{{show}}']}"`);
 for (const w of warn) console.log(`[warn]  ${w}`);
 for (const f of fail) console.log(`[FAIL]  ${f}`);
 
