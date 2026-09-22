@@ -287,8 +287,19 @@ WHERE station_id = :station_id
 --   Stray Kids ch 16  ~3,200 -> 16,385    5x
 --   INI        ch 306 ~1,600 -> 2,776   1.7x
 -- 1.7x is the FLOOR, on a channel already running at 1,600 a day. Quieter
--- channels spike far harder. The page claims "1.7 times or more", which every
--- case measured clears.
+-- channels spike far harder. The page says "between two and forty times",
+-- which is the measured range rounded inward, and is deliberately described
+-- as "the shows we have measured" rather than as an average. It is four
+-- shows, not a study.
+--
+-- TO MAKE IT AN AVERAGE you need to know which account is the artist, and
+-- nothing in the schema says. There is no artist or verified badge: badge
+-- types are All Access, Supporter tiers, ambassador and channel syndication.
+-- `artists` carries no account id, and a channel's current_station_id belongs
+-- to an ops account (bpstationhead, stayonair, ministreaming), not the artist.
+-- The host list per channel is small and legible though, 5 to 47 accounts over
+-- sixty days, with the official one obvious to a person (blackpink, straykids,
+-- officialini). So the work is labelling, not compute.
 --
 -- CAUTION on resolving a channel from a station: MAX(channel_id) is wrong when
 -- a station has sat under more than one channel. It gave channel 220 for BTS,
